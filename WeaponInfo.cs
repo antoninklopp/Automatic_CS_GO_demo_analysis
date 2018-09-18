@@ -14,83 +14,83 @@ public class WeaponInfo
             case EquipmentElement.Unknown:
                 return 0; 
             case EquipmentElement.P2000:
-                break;
+                return 13; 
             case EquipmentElement.Glock:
-                break;
+                return 20; 
             case EquipmentElement.P250:
-                break;
+                return 13; 
             case EquipmentElement.Deagle:
-                break;
+                return 7; 
             case EquipmentElement.FiveSeven:
-                break;
+                return 20; 
             case EquipmentElement.DualBarettas:
-                break;
+                return 30; 
             case EquipmentElement.Tec9:
-                break;
+                return 24; 
             case EquipmentElement.CZ:
-                break;
+                return 12; 
             case EquipmentElement.USP:
-                break;
+                return 12; 
             case EquipmentElement.Revolver:
-                break;
+                return 8; 
             case EquipmentElement.MP7:
-                break;
+                return 30; 
             case EquipmentElement.MP9:
-                break;
+                return 30; 
             case EquipmentElement.Bizon:
-                break;
+                return 64; 
             case EquipmentElement.Mac10:
-                break;
+                return 30; 
             case EquipmentElement.UMP:
-                break;
+                return 25; 
             case EquipmentElement.P90:
-                break;
+                return 50; 
             case EquipmentElement.SawedOff:
-                break;
+                return 7; 
             case EquipmentElement.Nova:
-                break;
+                return 8; 
             case EquipmentElement.Swag7:
-                break;
+                return 5; 
             case EquipmentElement.XM1014:
-                break;
+                return 7; 
             case EquipmentElement.M249:
-                break;
+                return 100; 
             case EquipmentElement.Negev:
-                break;
+                return 150; 
             case EquipmentElement.Gallil:
-                break;
+                return 34; 
             case EquipmentElement.Famas:
-                break;
+                return 25; 
             case EquipmentElement.AK47:
-                break;
+                return 30; 
             case EquipmentElement.M4A4:
-                break;
+                return 30; 
             case EquipmentElement.M4A1:
-                break;
+                return 20; 
             case EquipmentElement.Scout:
-                break;
+                return 10; 
             case EquipmentElement.SG556:
-                break;
+                return 30; 
             case EquipmentElement.AUG:
-                break;
+                return 30;
             case EquipmentElement.AWP:
-                break;
+                return 10; 
             case EquipmentElement.Scar20:
-                break;
+                return 20; 
             case EquipmentElement.G3SG1:
-                break;
+                return 20; 
             case EquipmentElement.Zeus:
-                break;
+                return 1; 
             case EquipmentElement.Kevlar:
-                break;
+                return -1; 
             case EquipmentElement.Helmet:
-                break;
+                return -1; 
             case EquipmentElement.Bomb:
-                break;
+                return -1; 
             case EquipmentElement.Knife:
-                break;
+                return -1; 
             case EquipmentElement.DefuseKit:
-                break;
+                return -1; 
             case EquipmentElement.World:
                 break;
             case EquipmentElement.Decoy:
