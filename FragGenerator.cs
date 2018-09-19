@@ -1,20 +1,55 @@
 ﻿using System;
 using DemoInfo;
+using System.Collections.Generic;
+using System.IO; 
 
 namespace CS_GO_Analysis {
+
     public static class FragGenerator {
+
+        public static bool BackStabbing(PlayerKilledEventArgs e) {
+            Vector PositionVictim = e.Victim.Position;
+            Vector PositionKiller = e.Killer.Position;
+            float VictimLookX = e.Victim.ViewDirectionX;
+            float VictimLookY = e.Victim.ViewDirectionY;
+
+            Console.WriteLine("Looking towards {0} {1}", VictimLookX, VictimLookY);
+
+            Vector DirectionVictimKiller = new Vector(PositionKiller.X - PositionVictim.X, PositionKiller.Y - PositionVictim.Y,
+                PositionKiller.Z - PositionVictim.Z);
+
+            float dotprod = VictimLookX * DirectionVictimKiller.X + VictimLookY * DirectionVictimKiller.Y;
+
+            return dotprod < 0;  
+        }
+
+
         public static void GenerateFrags(DemoParser parser) {
+
+            Dictionary<string, Player> AllPlayers = new Dictionary<string, Player>();
+            var outputStream = new StreamWriter("round.txt");
+
             parser.ParseHeader();
 
             int numberCT = 5;
-            int numberT = 5; 
+            int numberT = 5;
+
+            outputStream.WriteLine(parser.Map);
 
             // Make a print on round-start so you can see the actual frags per round. 
             parser.RoundStart += (sender, e) => {
+                outputStream.WriteLine("Round {0}", parser.CTScore + parser.TScore); 
                 Console.WriteLine("New Round, Current Score: T {0} : {1} CT", parser.TScore, parser.CTScore);
 
                 numberCT = 5;
                 numberT = 5;
+
+                AllPlayers = new Dictionary<string, Player>();
+
+                //foreach (var player in parser.PlayingParticipants) {
+                //    AllPlayers.Add(player.Name, new Player(player.Name, player.Position, player.Position,
+                //        player.ActiveWeapon.AmmoInMagazine, player.ActiveWeapon.Weapon));
+                //}
             };
 
             parser.PlayerKilled += (sender, e) => {
@@ -49,8 +84,14 @@ namespace CS_GO_Analysis {
                 Console.Write(" Weapon {0} Ammo in Magazine {1} {2}", e.Victim.ActiveWeapon.Weapon, 
                     e.Victim.ActiveWeapon.AmmoInMagazine.ToString(), 
                     e.Victim.ActiveWeapon.AmmoInMagazine == WeaponInfo.WeaponAmmoMagazine(e.Victim.ActiveWeapon.Weapon) ? 
-                    "Ammo Max" : ""); 
+                    "Ammo Max" : "");
 
+                if (BackStabbing(e)) {
+                    Console.Write("  Not Looking player");
+                }
+                else {
+                    Console.Write("  LookingPlayer"); 
+                }
 
                 if (e.Victim.Team == Team.CounterTerrorist) {
                     numberCT--; 
@@ -59,15 +100,37 @@ namespace CS_GO_Analysis {
                 }
                 
                 Console.WriteLine();
-
+                WriteToFileDeadPlayers(outputStream, AllPlayers[e.Victim.Name]); 
             };
 
             parser.RoundEnd += (sender, e) => {
                 Console.WriteLine("NumberCT alive " + numberCT.ToString() + " Number T alive " + numberT.ToString());
                 Console.WriteLine();
-            }; 
+            };
+
+            parser.TickDone += (sender, e) => {
+                // Updated every frame
+
+                foreach (var player in parser.PlayingParticipants) {
+                    // We multiply it by the time of one tick
+                    // Since the velocity is given in 
+                    // ingame-units per second
+                    // Console.WriteLine("{0} {1}", player.Name, player.Position);
+                    if (AllPlayers.ContainsKey(player.Name)) {
+                        Player current = AllPlayers[player.Name];
+                        if (player.IsAlive) {
+                            current.Update(player.Position, player.ActiveWeapon.AmmoInMagazine);
+                        }
+                    }
+                    else {
+                        AllPlayers.Add(player.Name, new Player(player.Name, player.Position, player.Position,
+                        player.ActiveWeapon.AmmoInMagazine, player.ActiveWeapon.Weapon));
+                    }
+                }
+            };
 
             parser.ParseToEnd();
+            outputStream.Close();
         }
 
 
@@ -83,5 +146,12 @@ namespace CS_GO_Analysis {
 
             return "None";
         }
+
+        private static void WriteToFileDeadPlayers(StreamWriter outputStream, Player DeadPlayer) {
+            outputStream.WriteLine("{0};{1};{2};{3}", DeadPlayer.Name,
+                DeadPlayer.Position.X, DeadPlayer.Position.Y, DeadPlayer.Position.Z
+                ); 
+        }
     }
+
 }
