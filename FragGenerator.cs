@@ -1,7 +1,8 @@
 ﻿using System;
 using DemoInfo;
 using System.Collections.Generic;
-using System.IO; 
+using System.IO;
+using Newtonsoft.Json;
 
 namespace CS_GO_Analysis {
 
@@ -31,6 +32,16 @@ namespace CS_GO_Analysis {
             var outputStream = new StreamWriter("round.txt");
 
             parser.ParseHeader();
+
+            string mapName = parser.Map;
+            Map_JSON map = new Map_JSON(); 
+            // Get information from the assoiated JSON file. 
+            try {
+                map = JsonConvert.DeserializeObject<Map_JSON>(File.ReadAllText("Maps_json/" + mapName + ".json"));
+            } catch (FileNotFoundException) {
+                Console.WriteLine("File was not found {0}", mapName);
+                System.Environment.Exit(1); 
+            }
 
             int numberCT = 5;
             int numberT = 5;
@@ -103,7 +114,7 @@ namespace CS_GO_Analysis {
                 
                 Console.WriteLine();
                 WriteToFileDeadPlayers(outputStream, AllPlayers[e.Victim.Name]);
-                deaths.Add(new Death(GetPositionMiniMap(e.Victim.Position), e.Victim.Team)); 
+                deaths.Add(new Death(GetPositionMiniMap(e.Victim.Position, map.pos_x, map.pos_y, map.scale), e.Victim.Team)); 
             };
 
             parser.RoundEnd += (sender, e) => {
@@ -164,8 +175,8 @@ namespace CS_GO_Analysis {
             }
         }
 
-        private static Vector GetPositionMiniMap(Vector Position) {
-            return new Vector((Position.X + 3230) / 5.0f, -(Position.Y - 1713) / 5.0f, 0f); 
+        private static Vector GetPositionMiniMap(Vector Position, int pos_x, int pos_y, float scale) {
+            return new Vector((Position.X + pos_x) / scale, -(Position.Y  + pos_y) / scale, 0f); 
         }
     }
 

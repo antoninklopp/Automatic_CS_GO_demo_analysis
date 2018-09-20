@@ -11,9 +11,6 @@ namespace CS_GO_Analysis {
     public class GenerateHeatMaps {
         public static void GenerateMap(List<Death> listDeaths, int roundNumber=0) {
 
-            Map_JSON map = JsonConvert.DeserializeObject<Map_JSON>(File.ReadAllText("Maps_json/de_mirage.json"));
-            Console.WriteLine("JSON {0}", map.pos_x); 
-
             Bitmap bitmap = new Bitmap("Maps/de_mirage_radar.png");
             Graphics g = Graphics.FromImage(bitmap);
 
@@ -26,7 +23,7 @@ namespace CS_GO_Analysis {
                 }
             }
 
-            bitmap.Save(@"test" + roundNumber.ToString()  + ".png", ImageFormat.Png);
+            bitmap.Save(@"Test_images/test" + roundNumber.ToString()  + ".png", ImageFormat.Png);
         }
     }
 }
