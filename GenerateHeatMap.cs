@@ -1,20 +1,27 @@
 ﻿using System;
 using System.IO;
 using DemoInfo;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.Collections;
+using System.Collections.Generic; 
 
 namespace CS_GO_Analysis {
     public class GenerateHeatMaps {
-        public static void GenerateMap(DemoParser demo) {
-            // Open a Stream and decode a PNG image
-            //Stream imageStreamSource = new FileStream("smiley.png", FileMode.Open, FileAccess.Read, FileShare.Read);
-            //PngBitmapDecoder decoder = new PngBitmapDecoder(imageStreamSource, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
-            //BitmapSource bitmapSource = decoder.Frames[0];
+        public static void GenerateMap(List<Death> listDeaths, int roundNumber=0) {
+            Bitmap bitmap = new Bitmap("Maps/de_mirage_radar.png");
+            Graphics g = Graphics.FromImage(bitmap);
 
-            //// Draw the Image
-            //Image myImage = new Image();
-            //myImage.Source = bitmapSource;
-            //myImage.Stretch = Stretch.None;
-            //myImage.Margin = new Thickness(20);
+            foreach (Death d in listDeaths) {
+                g.DrawEllipse(Pens.Orange, 500, 10, 10, 10); 
+                if (d.T == Team.CounterTerrorist) {
+                    g.DrawEllipse(Pens.DarkBlue, new Rectangle((int)d.Position.X, (int)d.Position.Y, 5, 5));
+                } else {
+                    g.DrawEllipse(Pens.Yellow, new Rectangle((int)d.Position.X, (int)d.Position.Y, 5, 5));
+                }
+            }
+
+            bitmap.Save(@"test" + roundNumber.ToString()  + ".png", ImageFormat.Png);
         }
     }
 }

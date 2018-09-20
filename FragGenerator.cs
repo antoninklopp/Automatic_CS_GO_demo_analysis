@@ -27,6 +27,7 @@ namespace CS_GO_Analysis {
         public static void GenerateFrags(DemoParser parser) {
 
             Dictionary<string, Player> AllPlayers = new Dictionary<string, Player>();
+            List<Death> deaths = new List<Death>(); 
             var outputStream = new StreamWriter("round.txt");
 
             parser.ParseHeader();
@@ -45,6 +46,7 @@ namespace CS_GO_Analysis {
                 numberT = 5;
 
                 AllPlayers = new Dictionary<string, Player>();
+                deaths = new List<Death>();
 
                 //foreach (var player in parser.PlayingParticipants) {
                 //    AllPlayers.Add(player.Name, new Player(player.Name, player.Position, player.Position,
@@ -100,12 +102,15 @@ namespace CS_GO_Analysis {
                 }
                 
                 Console.WriteLine();
-                WriteToFileDeadPlayers(outputStream, AllPlayers[e.Victim.Name]); 
+                WriteToFileDeadPlayers(outputStream, AllPlayers[e.Victim.Name]);
+                deaths.Add(new Death(GetPositionMiniMap(e.Victim.Position), e.Victim.Team)); 
             };
 
             parser.RoundEnd += (sender, e) => {
                 Console.WriteLine("NumberCT alive " + numberCT.ToString() + " Number T alive " + numberT.ToString());
                 Console.WriteLine();
+
+                GenerateHeatMaps.GenerateMap(deaths, parser.CTScore + parser.TScore); 
             };
 
             parser.TickDone += (sender, e) => {
@@ -131,6 +136,7 @@ namespace CS_GO_Analysis {
 
             parser.ParseToEnd();
             outputStream.Close();
+
         }
 
 
@@ -148,9 +154,18 @@ namespace CS_GO_Analysis {
         }
 
         private static void WriteToFileDeadPlayers(StreamWriter outputStream, Player DeadPlayer) {
-            outputStream.WriteLine("{0};{1};{2};{3}", DeadPlayer.Name,
-                DeadPlayer.Position.X, DeadPlayer.Position.Y, DeadPlayer.Position.Z
-                ); 
+            //outputStream.WriteLine("{0};{1};{2};{3}", DeadPlayer.Name,
+            //    DeadPlayer.Position.X, DeadPlayer.Position.Y, DeadPlayer.Position.Z
+            //    ); 
+
+            if( (DeadPlayer.Position.X + 3230 < 0) || ((DeadPlayer.Position.X + 3230)/5.0 > 1024) || (DeadPlayer.Position.Y - 1713 > 0)
+                || ((DeadPlayer.Position.Y - 1713)/5.0 < -1024)) {
+                outputStream.WriteLine("PROBLEM"); 
+            }
+        }
+
+        private static Vector GetPositionMiniMap(Vector Position) {
+            return new Vector((Position.X + 3230) / 5.0f, -(Position.Y - 1713) / 5.0f, 0f); 
         }
     }
 

@@ -2,6 +2,7 @@
 using DemoInfo;
 
 namespace CS_GO_Analysis {
+
     public class Player {
 
         public string Name;
