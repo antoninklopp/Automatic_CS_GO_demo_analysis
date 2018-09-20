@@ -3,4 +3,4 @@ bin/*
 *.dem
 *.csv*
 obj/*
-*.png
+*.txt
