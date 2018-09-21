@@ -31,6 +31,8 @@ namespace CS_GO_Analysis {
             List<Death> deaths = new List<Death>(); 
             var outputStream = new StreamWriter("round.txt");
 
+            float timeBeginningRound = 0f; 
+
             parser.ParseHeader();
 
             string mapName = parser.Map;
@@ -50,6 +52,7 @@ namespace CS_GO_Analysis {
 
             // Make a print on round-start so you can see the actual frags per round. 
             parser.RoundStart += (sender, e) => {
+                timeBeginningRound = parser.CurrentTime; 
                 outputStream.WriteLine("Round {0}", parser.CTScore + parser.TScore); 
                 Console.WriteLine("New Round, Current Score: T {0} : {1} CT", parser.TScore, parser.CTScore);
 
@@ -125,8 +128,10 @@ namespace CS_GO_Analysis {
             };
 
             parser.TickDone += (sender, e) => {
-                // Updated every frame
 
+                float currentTime = parser.CurrentTime - timeBeginningRound; 
+
+                // Updated every frame
                 foreach (var player in parser.PlayingParticipants) {
                     // We multiply it by the time of one tick
                     // Since the velocity is given in 
@@ -151,7 +156,7 @@ namespace CS_GO_Analysis {
         }
 
 
-        private static string ShortTeam(Team team) {
+        private static string ShortTeam(Team team) { 
             switch (team) {
                 case Team.Spectate:
                     return "None";

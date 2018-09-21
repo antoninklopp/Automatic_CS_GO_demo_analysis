@@ -7,6 +7,9 @@ using System.Linq;
 
 namespace CS_GO_Analysis {
     class Program {
+
+        public static bool VERBOSE = false; 
+
         public static void Main(string[] args) {
             using (var fileStream = File.OpenRead(args[0])) {
                 using (var parser = new DemoParser(fileStream)) {
