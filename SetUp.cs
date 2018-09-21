@@ -11,6 +11,8 @@ namespace CS_GO_Analysis {
     /// - Bombsite
     /// - Player On Site
     /// - Position of the Player
+    /// 
+    /// WARNING : A set up is just for the defense. 
     /// </summary>
     public class SetUp {
 
@@ -82,6 +84,14 @@ namespace CS_GO_Analysis {
             }
 
             return s.ToString(); 
+        }
+
+        /// <summary>
+        /// Return the list of the players in this bombsite. 
+        /// </summary>
+        /// <returns></returns>
+        public List<PlayerBombSite> ToPlayerList() {
+            return players; 
         }
     }
 }
