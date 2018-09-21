@@ -24,6 +24,19 @@ namespace CS_GO_Analysis {
 
         }
 
+        public TeamSetUp(SetUp a, SetUp b, Team name, Round.RoundType moneyType) {
+            A = a;
+            B = b;
+            Name = name;
+            MoneyType = moneyType;
+        }
+
+        public TeamSetUp(SetUp a, SetUp b, Team name) {
+            A = a;
+            B = b;
+            Name = name;
+        }
+
         public List<PlayerBombSite> ToPlayersList() {
             List<PlayerBombSite> Players = A.ToPlayerList(); 
             foreach (PlayerBombSite b in B.ToPlayerList()) {

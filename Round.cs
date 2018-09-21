@@ -13,13 +13,16 @@ namespace CS_GO_Analysis {
 
         public int Number;
 
-        public TeamSetUp DefenseSetUp; 
+        public TeamSetUp DefenseSetUp;
+
+        public Team CTTeam;
+        public Team TTeam; 
 
         public Round() {
         }
 
         public List<PlayerBombSite> VerboseDefenseSetUp() {
-            return DefenseSetUp.ToPlayerList(); 
+            return DefenseSetUp.ToPlayersList(); 
         }
     }
 }

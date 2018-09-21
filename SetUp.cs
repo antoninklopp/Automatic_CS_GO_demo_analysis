@@ -93,5 +93,23 @@ namespace CS_GO_Analysis {
         public List<PlayerBombSite> ToPlayerList() {
             return players; 
         }
+
+        /// <summary>
+        /// Override the hash code for the setup. 
+        /// </summary>
+        /// <returns></returns>
+        public override int GetHashCode() {
+            List<string> listNames = new List<string>(); 
+            foreach(PlayerBombSite p in players) {
+                listNames.Add(p.Name); 
+            }
+            // Sort the player names because we want that player A-B and player B-A be the same setup. 
+            listNames.Sort();
+            string concatenatedNames = ""; 
+            foreach(string n in listNames) {
+                concatenatedNames += n;
+            }
+            return concatenatedNames.GetHashCode() + Site.GetHashCode(); 
+        }
     }
 }
