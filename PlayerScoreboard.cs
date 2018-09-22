@@ -58,6 +58,10 @@ namespace CS_GO_Analysis {
         /// </summary>
         public int Deaths; 
 
+        public PlayerScoreboard(string name) : base(name) {
+
+        }
+
         public PlayerScoreboard(string name, Vector position, Vector lastPosition, 
             int lastBulletNumber, EquipmentElement weapon, Team teamName) : 
             base(name, position, lastPosition, lastBulletNumber, weapon, teamName) {

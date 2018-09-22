@@ -16,6 +16,11 @@ namespace CS_GO_Analysis {
         /// </summary>
         public List<Round> AllRounds = new List<Round>();
 
+        /// <summary>
+        /// Scoreboard of the game. 
+        /// </summary>
+        public Scoreboard board = new Scoreboard();
+
         public GameInfo() {
             
         }
@@ -49,8 +54,19 @@ namespace CS_GO_Analysis {
 
             outputStream.WriteLine(parser.Map);
 
+            parser.MatchStarted += (sender, e) => {
+                // When the match starts we create a new scoreboard
+                board = new Scoreboard(); 
+            }; 
+
             // Make a print on round-start so you can see the actual frags per round. 
             parser.RoundStart += (sender, e) => {
+
+                if (!board.IsInitialized()) {
+                    foreach (var player in parser.PlayingParticipants) {
+                        board.AddPlayerToScoreboard(new PlayerScoreboard(player.Name)); 
+                    }
+                }
 
                 timeBeginningRound = parser.CurrentTime;
 
@@ -122,6 +138,10 @@ namespace CS_GO_Analysis {
                     }
                 }
             };
+
+            parser.PlayerKilled += (sender, e) => {
+                board.UpdateScoreBoardPlayerKilled(e); 
+            }; 
 
             parser.ParseToEnd();
             outputStream.Close();

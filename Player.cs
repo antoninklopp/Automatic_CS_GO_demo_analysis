@@ -12,6 +12,10 @@ namespace CS_GO_Analysis {
         public EquipmentElement Weapon;
         public Team TeamName; 
 
+        public Player(string name) {
+            Name = name; 
+        }
+
         public Player(string name, Vector position, Vector lastPosition, int lastBulletNumber, EquipmentElement weapon, 
             Team teamName) {
             Name = name;
