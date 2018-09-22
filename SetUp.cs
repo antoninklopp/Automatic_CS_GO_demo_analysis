@@ -83,7 +83,7 @@ namespace CS_GO_Analysis {
             StringBuilder s = new StringBuilder();
             s.AppendFormat("Bombsite {0}\n", this.Site);
             foreach (PlayerBombSite p in players) {
-                s.AppendFormat("{0} \n", p.Name); 
+                s.AppendFormat("{0} ", p.Name); 
             }
 
             return s.ToString(); 
@@ -113,6 +113,17 @@ namespace CS_GO_Analysis {
                 concatenatedNames += n;
             }
             return concatenatedNames.GetHashCode() + Site.GetHashCode(); 
+        }
+
+        public override bool Equals(object obj) {
+            if (obj.GetType() != typeof(SetUp)) {
+                return false; 
+            }
+            SetUp objSetUp = (SetUp)obj; 
+            if (objSetUp.GetHashCode() == GetHashCode()) {
+                return true; 
+            }
+            return false;
         }
     }
 }

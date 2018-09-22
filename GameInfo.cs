@@ -172,6 +172,7 @@ namespace CS_GO_Analysis {
             int MaxASetUpNumber = 0;
             int MaxBSetUpNumber = 0;
             foreach (KeyValuePair<SetUp, int> entry in AllSetUps) {
+                // Console.WriteLine("SetUP {0} {2} occuring {1} ", entry.Key, entry.Value, entry.Key.GetHashCode()); 
                 if (entry.Key.Site == SetUp.BombSite.A) {
                     if (entry.Value > MaxASetUpNumber) {
                         MaxASetUp = entry.Key;
