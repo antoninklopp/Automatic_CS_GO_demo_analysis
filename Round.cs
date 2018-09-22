@@ -15,8 +15,8 @@ namespace CS_GO_Analysis {
 
         public TeamSetUp DefenseSetUp;
 
-        public Team CTTeam;
-        public Team TTeam; 
+        public string CTTeam;
+        public string TTeam; 
 
         public Round() {
         }

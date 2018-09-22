@@ -9,14 +9,26 @@ namespace CS_GO_Analysis {
         public Vector Position;
         public Vector LastPosition;
         public int LastBulletNumber;
-        public EquipmentElement Weapon; 
+        public EquipmentElement Weapon;
+        public Team TeamName; 
 
-        public Player(string name, Vector position, Vector lastPosition, int lastBulletNumber, EquipmentElement weapon) {
+        public Player(string name, Vector position, Vector lastPosition, int lastBulletNumber, EquipmentElement weapon, 
+            Team teamName) {
             Name = name;
             Position = position;
             LastPosition = lastPosition;
             LastBulletNumber = lastBulletNumber;
             Weapon = weapon;
+            TeamName = teamName; 
+        }
+
+        public Player (Player p) {
+            Name = p.Name;
+            Position = p.Position;
+            LastPosition = p.LastPosition;
+            LastBulletNumber = p.LastBulletNumber;
+            Weapon = p.Weapon;
+            TeamName = p.TeamName;
         }
 
         public void Update(Vector position, int newBulletNumber) {

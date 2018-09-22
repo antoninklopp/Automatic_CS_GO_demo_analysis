@@ -19,6 +19,11 @@ namespace CS_GO_Analysis {
 
         }
 
+        public PlayerBombSite(string name, Vector position) {
+            Name = name;
+            Position = position;
+        }
+
         public PlayerBombSite(string name, Vector position, PlayerWeaponStyle weaponStyle, SetUp.BombSite bombsite) {
             Name = name;
             Position = position;

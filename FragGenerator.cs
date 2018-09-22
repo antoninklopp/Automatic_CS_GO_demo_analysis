@@ -145,7 +145,7 @@ namespace CS_GO_Analysis {
                     }
                     else {
                         AllPlayers.Add(player.Name, new Player(player.Name, player.Position, player.Position,
-                        player.ActiveWeapon.AmmoInMagazine, player.ActiveWeapon.Weapon));
+                        player.ActiveWeapon.AmmoInMagazine, player.ActiveWeapon.Weapon, player.Team));
                     }
                 }
             };
@@ -181,7 +181,11 @@ namespace CS_GO_Analysis {
         }
 
         private static Vector GetPositionMiniMap(Vector Position, int pos_x, int pos_y, float scale) {
-            return new Vector((Position.X + pos_x) / scale, -(Position.Y  + pos_y) / scale, 0f); 
+            Vector PositionMiniMap = new Vector((Position.X - pos_x) / scale, -(Position.Y - pos_y) / scale, 0f);
+            if ((PositionMiniMap.X > 1024) || (PositionMiniMap.X < 0) || (PositionMiniMap.Y > 1024) || (PositionMiniMap.Y < 0)) {
+                Console.WriteLine("PROBLEM"); 
+            }
+            return PositionMiniMap; 
         }
     }
 

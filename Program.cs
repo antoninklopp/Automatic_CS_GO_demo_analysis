@@ -13,7 +13,11 @@ namespace CS_GO_Analysis {
         public static void Main(string[] args) {
             using (var fileStream = File.OpenRead(args[0])) {
                 using (var parser = new DemoParser(fileStream)) {
-                    FragGenerator.GenerateFrags(parser);
+                    // FragGenerator.GenerateFrags(parser);
+                    GameInfo g = new GameInfo(); 
+                    g.ParseGame(parser);
+                    TeamSetUp t = g.GetGlobalSetUp("G2 Esports");
+                    Console.WriteLine(t); 
                 }
             }
         }
