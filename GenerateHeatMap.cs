@@ -25,5 +25,21 @@ namespace CS_GO_Analysis {
 
             bitmap.Save(@"Test_images/test" + roundNumber.ToString()  + ".png", ImageFormat.Png);
         }
+
+        public static void GenerateMap(List<Player> listPlayers, string mapName, int roundNumber = 0) {
+            Bitmap bitmap = new Bitmap("Maps/" + mapName + "_radar.png");
+            Graphics g = Graphics.FromImage(bitmap);
+
+            foreach (Player p in listPlayers) {
+                if (p.TeamName == Team.CounterTerrorist) {
+                    g.DrawEllipse(Pens.DarkBlue, new Rectangle((int)p.Position.X, (int)p.Position.Y, 5, 5));
+                }
+                else {
+                    g.DrawEllipse(Pens.Yellow, new Rectangle((int)p.Position.X, (int)p.Position.Y, 5, 5));
+                }
+            }
+
+            bitmap.Save(@"Test_images/test2-" + roundNumber.ToString() + ".png", ImageFormat.Png);
+        }
     }
 }

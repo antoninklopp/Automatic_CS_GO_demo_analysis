@@ -53,6 +53,7 @@ namespace CS_GO_Analysis {
             parser.RoundStart += (sender, e) => {
 
                 timeBeginningRound = parser.CurrentTime;
+
                 outputStream.WriteLine("Round {0}", parser.CTScore + parser.TScore);
                 Console.WriteLine("New Round, Current Score: T {0} : {1} CT", parser.TScore, parser.CTScore);
 
@@ -65,7 +66,8 @@ namespace CS_GO_Analysis {
 
                 currentRound = new Round {
                     CTTeam = parser.CTClanName,
-                    TTeam = parser.TClanName
+                    TTeam = parser.TClanName, 
+                    Number = parser.CTScore + parser.TScore
                 };
                 setUpDetermined = false; 
             };
@@ -82,13 +84,24 @@ namespace CS_GO_Analysis {
 
                 float currentTime = parser.CurrentTime - timeBeginningRound;
 
-                if (currentTime > 30 && !setUpDetermined) {
+                if (currentTime > 35 && !setUpDetermined) {
+                    Console.WriteLine("CurrentTime {0}", currentTime); 
                     setUpDetermined = true;
                     List<Player> PlayersList = new List<Player>(); 
                     foreach(KeyValuePair<string, Player> entry in AllPlayers) {
                         PlayersList.Add(new Player(entry.Value)); 
                     }
-                    currentRound.DefenseSetUp = new TeamSetUp(PlayersList, map);  
+                    currentRound.DefenseSetUp = new TeamSetUp(PlayersList, map);
+
+                    List<Player> PlayerToDraw = new List<Player>(); 
+                    foreach(Player p in PlayersList) {
+                        Player p2 = new Player(p) {
+                            Position = GetPositionMiniMap(p.Position, map.pos_x, map.pos_y, map.scale)
+                        };
+                        PlayerToDraw.Add(p2); 
+                    }
+
+                    GenerateHeatMaps.GenerateMap(PlayerToDraw, mapName, currentRound.Number); 
                 }
 
                 // Updated every frame
@@ -172,6 +185,14 @@ namespace CS_GO_Analysis {
                 }
             }
             return new TeamSetUp(MaxASetUp, MaxBSetup); 
+        }
+
+        private static Vector GetPositionMiniMap(Vector Position, int pos_x, int pos_y, float scale) {
+            Vector PositionMiniMap = new Vector((Position.X - pos_x) / scale, -(Position.Y - pos_y) / scale, 0f);
+            if ((PositionMiniMap.X > 1024) || (PositionMiniMap.X < 0) || (PositionMiniMap.Y > 1024) || (PositionMiniMap.Y < 0)) {
+                Console.WriteLine("PROBLEM");
+            }
+            return PositionMiniMap;
         }
     }
 }
