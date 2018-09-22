@@ -3,4 +3,4 @@ bin/*
 *.dem
 *.csv*
 obj/*
-*.txt
+Program_save.cs

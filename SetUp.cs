@@ -65,8 +65,6 @@ namespace CS_GO_Analysis {
                     if (Program.VERBOSE) {
                         Console.WriteLine("{0} is a player of {1} bombsite", p.Name, site); 
                     }
-                    Console.WriteLine(Site);
-                    Console.WriteLine(p.Name); 
                     players.Add(new PlayerBombSite(p)); 
                 }
             }

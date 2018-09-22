@@ -1,0 +1,5 @@
+Packages required : 
+
+Demo Info : https://www.nuget.org/packages/DemoInfo/
+Newtonsoft.Json
+System.Drawing.Common
