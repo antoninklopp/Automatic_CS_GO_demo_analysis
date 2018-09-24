@@ -22,7 +22,8 @@ namespace CS_GO_Analysis {
                         TeamSetUp t = g.GetGlobalSetUp("G2 Esports");
                         Console.WriteLine(t);
                         g.board.GenerateScoreboard();
-                        g.GenerateDeathMapPlayer(); 
+                        g.GenerateDeathMapPlayer();
+                        g.GenerateHeatMapPlayer();
                     }
                 }
             }

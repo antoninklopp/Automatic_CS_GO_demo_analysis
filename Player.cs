@@ -6,6 +6,8 @@ namespace CS_GO_Analysis {
 
     public class Player {
 
+        public const int sizeHeatMap = 20;  
+
         public string Name;
         public Vector Position;
         public Vector LastPosition;
@@ -13,7 +15,11 @@ namespace CS_GO_Analysis {
         public EquipmentElement Weapon;
         public Team TeamName;
 
-        public List<Death> AllDeaths; 
+        public List<Death> AllDeaths;
+
+        // important to differentiate CT and T heatmaps. 
+        public int[,] PositionHeatT = new int[(int)(1024f/sizeHeatMap) + 1, (int)(1024f / sizeHeatMap) + 1];
+        public int[,] PositionHeatCT = new int[(int)(1024f / sizeHeatMap) + 1, (int)(1024f / sizeHeatMap) + 1];
 
         public Player(string name) {
             Name = name;
@@ -43,14 +49,19 @@ namespace CS_GO_Analysis {
             AllDeaths = new List<Death>();
         }
 
-        public void Update(Vector position, int newBulletNumber) {
+        public void Update(Vector position, Vector PositionMiniMap, int newBulletNumber) {
             //if (LastBulletNumber != newBulletNumber) {
             //    Console.WriteLine("{0} fired a shot with {1} previous Ammo {2} next Ammo {3}", Name, Weapon.ToString(), LastBulletNumber, 
             //        newBulletNumber);
             //}
             LastPosition = Position;
             Position = position;
-            LastBulletNumber = newBulletNumber; 
+            LastBulletNumber = newBulletNumber;
+            if (TeamName == Team.CounterTerrorist) {
+                PositionHeatCT[(int)(PositionMiniMap.X/ sizeHeatMap), (int)(PositionMiniMap.Y/ sizeHeatMap)]++;
+            } else {
+                PositionHeatT[(int)(PositionMiniMap.X / sizeHeatMap), (int)(PositionMiniMap.Y / sizeHeatMap)]++;
+            }
         }
 
         public void AddDeath(Death d) {

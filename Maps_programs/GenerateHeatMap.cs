@@ -3,9 +3,9 @@ using System.IO;
 using DemoInfo;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Collections;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using System.Linq;
 
 namespace CS_GO_Analysis.Maps {
     public class GenerateHeatMaps {
@@ -23,7 +23,7 @@ namespace CS_GO_Analysis.Maps {
                 }
             }
 
-            bitmap.Save(@"Test_images/" + mapName + "_" + roundNumber.ToString()  + ".png", ImageFormat.Png);
+            bitmap.Save(@"Test_images/" + roundNumber.ToString()  + ".png", ImageFormat.Png);
         }
 
         public static void GenerateMap(List<Player> listPlayers, string mapName, int roundNumber = 0) {
@@ -61,6 +61,41 @@ namespace CS_GO_Analysis.Maps {
             }
 
             bitmap.Save(@"Test_images/" + mapName + "_" + playerName + ".png", ImageFormat.Png);
+        }
+
+        public static void GenerateHeatpMapPosition(Player p, string mapName, Team t) {
+            Bitmap bitmap = new Bitmap("Maps/" + mapName + "_radar.png");
+            Graphics g = Graphics.FromImage(bitmap);
+
+            List<Death> listDeaths = p.AllDeaths;
+            string playerName = p.Name;
+
+            // First we find the max value
+            int maxValue = 0;
+            if (t == Team.CounterTerrorist) {
+                maxValue = p.PositionHeatCT.Cast<int>().Max();
+            }
+            else {
+                maxValue = p.PositionHeatT.Cast<int>().Max();
+            }
+
+            // iterate over the position of the player
+            for (int i = 0; i < (int)(1024f/Player.sizeHeatMap) + 1; i++) {
+                for (int j = 0; j < (int)(1024f / Player.sizeHeatMap) + 1; j++) {
+                    int currentPosition; 
+                    if (t == Team.CounterTerrorist) {
+                        currentPosition = p.PositionHeatCT[i, j];
+                    } else {
+                        currentPosition = p.PositionHeatT[i, j];
+                    }
+                    Color c = ColorHeatMap.GetColorHeatMap(currentPosition, maxValue);
+                    Brush b = new SolidBrush(c); 
+                    g.FillRectangle(b, i * Player.sizeHeatMap, j * Player.sizeHeatMap, 
+                        Player.sizeHeatMap, Player.sizeHeatMap);
+                }
+            }
+
+            bitmap.Save(@"Test_images/HeatMap_" + mapName + "_" + p.Name + "_" + t + ".png", ImageFormat.Png);
         }
     }
 }

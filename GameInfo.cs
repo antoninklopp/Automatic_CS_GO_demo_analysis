@@ -77,6 +77,10 @@ namespace CS_GO_Analysis {
                     }
                 }
 
+                foreach (var player in parser.PlayingParticipants) {
+                    AllPlayers[player.Name].TeamName = player.Team; 
+                }
+
                 timeBeginningRound = parser.CurrentTime;
 
                 outputStream.WriteLine("Round {0}", parser.CTScore + parser.TScore);
@@ -138,7 +142,9 @@ namespace CS_GO_Analysis {
                     if (AllPlayers.ContainsKey(player.Name)) {
                         Player current = AllPlayers[player.Name];
                         if (player.IsAlive) {
-                            current.Update(player.Position, player.ActiveWeapon.AmmoInMagazine);
+                            current.Update(player.Position,
+                                GetPositionMiniMap(player.Position, map.pos_x, map.pos_y, map.scale),
+                                player.ActiveWeapon.AmmoInMagazine);
                         }
                     }
                     else {
@@ -238,6 +244,13 @@ namespace CS_GO_Analysis {
         public void GenerateDeathMapPlayer() {
             foreach (KeyValuePair<string, Player> entry in AllPlayers) {
                 GenerateHeatMaps.GenerateDeathsPlayer(entry.Value, mapName); 
+            }
+        }
+
+        public void GenerateHeatMapPlayer() {
+            foreach (KeyValuePair<string, Player> entry in AllPlayers) {
+                GenerateHeatMaps.GenerateHeatpMapPosition(entry.Value, mapName, Team.CounterTerrorist);
+                GenerateHeatMaps.GenerateHeatpMapPosition(entry.Value, mapName, Team.Terrorist);
             }
         }
     }

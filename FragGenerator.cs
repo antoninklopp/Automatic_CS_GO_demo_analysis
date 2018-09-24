@@ -140,9 +140,9 @@ namespace CS_GO_Analysis {
                     // Console.WriteLine("{0} {1}", player.Name, player.Position);
                     if (AllPlayers.ContainsKey(player.Name)) {
                         Player current = AllPlayers[player.Name];
-                        if (player.IsAlive) {
-                            current.Update(player.Position, player.ActiveWeapon.AmmoInMagazine);
-                        }
+                        //if (player.IsAlive) {
+                        //    current.Update(player.Position, player.ActiveWeapon.AmmoInMagazine);
+                        //}
                     }
                     else {
                         AllPlayers.Add(player.Name, new Player(player.Name, player.Position, player.Position,
