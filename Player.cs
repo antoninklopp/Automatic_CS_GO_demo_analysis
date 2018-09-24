@@ -6,7 +6,7 @@ namespace CS_GO_Analysis {
 
     public class Player {
 
-        public const int sizeHeatMap = 20;  
+        public const int sizeHeatMap = 5;  
 
         public string Name;
         public Vector Position;

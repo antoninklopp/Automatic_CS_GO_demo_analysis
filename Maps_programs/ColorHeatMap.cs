@@ -9,8 +9,8 @@ namespace CS_GO_Analysis.Maps {
             if (currentInt == 0) {
                 return Color.FromArgb(0, 0, 0, 0); 
             }
-            Color c = Color.FromArgb(120, 0, Math.Min(255, (int)((float)currentInt * 255 * 15 / maxInt)),
-               Math.Min(255 - (int)((float)currentInt * 255 * 15 / maxInt), 255));
+            Color c = Color.FromArgb(120, 0, Math.Min(255, (int)((float)currentInt * 255 * 50 / maxInt)),
+               Math.Max(255 - (int)((float)currentInt * 255 * 50 / maxInt), 0));
             return c; 
         }
 
