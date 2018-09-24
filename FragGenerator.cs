@@ -3,6 +3,7 @@ using DemoInfo;
 using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
+using CS_GO_Analysis.Maps; 
 
 namespace CS_GO_Analysis {
 

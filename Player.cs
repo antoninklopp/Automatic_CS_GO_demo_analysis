@@ -1,5 +1,6 @@
 ﻿using System;
 using DemoInfo;
+using System.Collections.Generic; 
 
 namespace CS_GO_Analysis {
 
@@ -10,15 +11,17 @@ namespace CS_GO_Analysis {
         public Vector LastPosition;
         public int LastBulletNumber;
         public EquipmentElement Weapon;
-        public Team TeamName; 
+        public Team TeamName;
+
+        public List<Death> AllDeaths; 
 
         public Player(string name) {
-            Name = name; 
+            Name = name;
+            AllDeaths = new List<Death>(); 
         }
 
         public Player(string name, Vector position, Vector lastPosition, int lastBulletNumber, EquipmentElement weapon, 
-            Team teamName) {
-            Name = name;
+            Team teamName) : this(name) {
             Position = position;
             LastPosition = lastPosition;
             LastBulletNumber = lastBulletNumber;
@@ -26,6 +29,10 @@ namespace CS_GO_Analysis {
             TeamName = teamName; 
         }
 
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
+        /// <param name="p"></param>
         public Player (Player p) {
             Name = p.Name;
             Position = p.Position;
@@ -33,6 +40,7 @@ namespace CS_GO_Analysis {
             LastBulletNumber = p.LastBulletNumber;
             Weapon = p.Weapon;
             TeamName = p.TeamName;
+            AllDeaths = new List<Death>();
         }
 
         public void Update(Vector position, int newBulletNumber) {
@@ -43,6 +51,10 @@ namespace CS_GO_Analysis {
             LastPosition = Position;
             Position = position;
             LastBulletNumber = newBulletNumber; 
+        }
+
+        public void AddDeath(Death d) {
+            AllDeaths.Add(d);
         }
     }
 }

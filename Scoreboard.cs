@@ -38,15 +38,20 @@ namespace CS_GO_Analysis {
                 AllPlayers[e.Assister.Name].Assists++; 
             }
 
-            //if (e.Headshot) {
-            //    AllPlayers[e.Killer.Name].EnemyKilledWithHS(); 
-            //} else {
-            //    AllPlayers[e.Killer.Name].EnemyKilledNoHS();
-            //}
-
-            AllPlayers[e.Killer.Name].Kills++; 
+            if (e.Headshot) {
+                AllPlayers[e.Killer.Name].EnemyKilledWithHS();
+            }
+            else {
+                AllPlayers[e.Killer.Name].EnemyKilledNoHS();
+            }
 
             AllPlayers[e.Victim.Name].Deaths++; 
+        }
+
+        public void UpdateScoreBoardNewRound() {
+            foreach (KeyValuePair<string, PlayerScoreboard> entry in AllPlayers) {
+                entry.Value.UpdateNewRound(); 
+            }
         }
 
         /// <summary>
@@ -55,8 +60,8 @@ namespace CS_GO_Analysis {
         public void GenerateScoreboard() {
             foreach (KeyValuePair<string, PlayerScoreboard> entry in AllPlayers) {
                 Console.WriteLine("---------------------------------------------------------");
-                Console.WriteLine("{0, 15} | {1, 5} | {2,5} | {3, 5} ", entry.Value.Name, entry.Value.Kills, 
-                    entry.Value.Assists, entry.Value.Deaths); 
+                Console.WriteLine("{0, 15} | {1, 3} | {2,3} | {3, 3} | {4, 3}", entry.Value.Name, entry.Value.Kills, 
+                    entry.Value.Assists, entry.Value.Deaths, entry.Value.HSRate().ToString("0.000"));
             }
         }
 
@@ -66,6 +71,10 @@ namespace CS_GO_Analysis {
         /// <returns>true if the scoreboard is initializd, no if is not</returns>
         public bool IsInitialized() {
             return (AllPlayers.Count != 0); 
+        }
+
+        public void UpdatePlayerHurt(PlayerHurtEventArgs e) {
+
         }
 
 

@@ -88,5 +88,13 @@ namespace CS_GO_Analysis {
             Kills++; 
         }
 
+        public float HSRate() {
+            return (float)HS / Kills; 
+        }
+
+        public void UpdateNewRound() {
+            RoundNumber++; 
+        }
+
     }
 }

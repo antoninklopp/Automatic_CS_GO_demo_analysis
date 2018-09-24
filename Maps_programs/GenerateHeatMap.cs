@@ -7,7 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace CS_GO_Analysis {
+namespace CS_GO_Analysis.Maps {
     public class GenerateHeatMaps {
         public static void GenerateMap(List<Death> listDeaths, int roundNumber=0) {
 
@@ -23,7 +23,7 @@ namespace CS_GO_Analysis {
                 }
             }
 
-            bitmap.Save(@"Test_images/test" + roundNumber.ToString()  + ".png", ImageFormat.Png);
+            bitmap.Save(@"Test_images/" + mapName + "_" + roundNumber.ToString()  + ".png", ImageFormat.Png);
         }
 
         public static void GenerateMap(List<Player> listPlayers, string mapName, int roundNumber = 0) {
@@ -39,7 +39,28 @@ namespace CS_GO_Analysis {
                 }
             }
 
-            bitmap.Save(@"Test_images/test2-" + roundNumber.ToString() + ".png", ImageFormat.Png);
+            bitmap.Save(@"Test_images/" + mapName + "_" + roundNumber.ToString() + ".png", ImageFormat.Png);
+        }
+
+        /// <summary>
+        /// Generate a Map of all the deaths of a player
+        /// </summary>
+        public static void GenerateDeathsPlayer(Player p, string mapName) {
+            Bitmap bitmap = new Bitmap("Maps/" + mapName + "_radar.png");
+            Graphics g = Graphics.FromImage(bitmap);
+
+            List<Death> listDeaths = p.AllDeaths;
+            string playerName = p.Name; 
+
+            foreach (Death d in listDeaths) {
+                if (d.T == Team.CounterTerrorist) {
+                    g.DrawEllipse(Pens.DarkBlue, new Rectangle((int)d.Position.X, (int)d.Position.Y, 5, 5));
+                } else {
+                    g.DrawEllipse(Pens.Yellow, new Rectangle((int)d.Position.X, (int)d.Position.Y, 5, 5));
+                }
+            }
+
+            bitmap.Save(@"Test_images/" + mapName + "_" + playerName + ".png", ImageFormat.Png);
         }
     }
 }

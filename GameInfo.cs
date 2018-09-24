@@ -2,7 +2,8 @@
 using DemoInfo;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using System.IO; 
+using System.IO;
+using CS_GO_Analysis.Maps; 
 
 namespace CS_GO_Analysis {
 
@@ -21,12 +22,20 @@ namespace CS_GO_Analysis {
         /// </summary>
         public Scoreboard board = new Scoreboard();
 
-        public GameInfo() {
-            
-        }
+        /// <summary>
+        /// Dictionnary of all the players. 
+        /// </summary>
+        public Dictionary<string, Player> AllPlayers = new Dictionary<string, Player>();
 
+        public string mapName; 
+
+        public GameInfo() { }
+
+        /// <summary>
+        /// Get all the informations from the game
+        /// </summary>
+        /// <param name="parser"></param>
         public void ParseGame(DemoParser parser) {
-            Dictionary<string, Player> AllPlayers = new Dictionary<string, Player>();
             List<Death> deaths = new List<Death>();
             var outputStream = new StreamWriter("round.txt");
 
@@ -37,7 +46,7 @@ namespace CS_GO_Analysis {
 
             parser.ParseHeader();
 
-            string mapName = parser.Map;
+            mapName = parser.Map;
             Map_JSON map = new Map_JSON();
 
             // Get information from the assoiated JSON file. 
@@ -75,8 +84,6 @@ namespace CS_GO_Analysis {
 
                 numberCT = 5;
                 numberT = 5;
-
-                AllPlayers = new Dictionary<string, Player>();
                 
                 deaths = new List<Death>();
 
@@ -85,7 +92,9 @@ namespace CS_GO_Analysis {
                     TTeam = parser.TClanName, 
                     Number = parser.CTScore + parser.TScore
                 };
-                setUpDetermined = false; 
+                setUpDetermined = false;
+
+                board.UpdateScoreBoardNewRound(); 
             };
 
             parser.RoundEnd += (sender, e) => {
@@ -140,7 +149,14 @@ namespace CS_GO_Analysis {
             };
 
             parser.PlayerKilled += (sender, e) => {
-                board.UpdateScoreBoardPlayerKilled(e); 
+                board.UpdateScoreBoardPlayerKilled(e);
+                AllPlayers[e.Victim.Name].AddDeath(new Death(GetPositionMiniMap(e.Victim.Position, map.pos_x, map.pos_y, map.scale)
+                    , e.Victim.Team)); 
+            };
+
+            // Occurs when a player gets hurt. 
+            parser.PlayerHurt += (sender, e) => {
+                board.UpdatePlayerHurt(e); 
             }; 
 
             parser.ParseToEnd();
@@ -214,6 +230,15 @@ namespace CS_GO_Analysis {
                 Console.WriteLine("PROBLEM");
             }
             return PositionMiniMap;
+        }
+
+        /// <summary>
+        /// Generate the player deaths maps. 
+        /// </summary>
+        public void GenerateDeathMapPlayer() {
+            foreach (KeyValuePair<string, Player> entry in AllPlayers) {
+                GenerateHeatMaps.GenerateDeathsPlayer(entry.Value, mapName); 
+            }
         }
     }
 }
