@@ -1,7 +1,9 @@
 ﻿using System;
 using DemoInfo;
 using System.Collections.Generic;
-using CS_GO_Analysis.Maps; 
+using CS_GO_Analysis.Maps;
+using CS_GO_Analysis.Get_Demos;
+using System.IO; 
 
 namespace CS_GO_Analysis {
 
@@ -28,15 +30,42 @@ namespace CS_GO_Analysis {
             TeamName = teamName; 
         }
 
-        public void AnalyzeNewGame(DemoParser demo) {
-            GameInfo g = new GameInfo();
-            // First we need to check if the map is the right type and from the right team
-            if (g.GetMapName(demo) != MapName || !g.CheckTeamName(demo, TeamName)) {
-                return; 
+        public MultipleGames(string mapName, string teamName, string path) : this (mapName, teamName) {
+            string[] allDemos = ComputerDemos.ScanListDemos(path); 
+            foreach (string demo in allDemos) {
+                using (var fileStream = File.OpenRead(demo)) {
+                    AnalyzeNewGame(fileStream); 
+                }
             }
 
-            g.ParseGame(demo);
-            AllGames.Add(g); 
+        }
+
+        public void AnalyzeNewGame(FileStream fileStream) {
+
+            GameInfo g = new GameInfo();
+
+            //using (var demo = new DemoParser(fileStream)) {
+
+            //    g.ParseHeader(demo);
+
+            //    List<string> TeamNames = g.GetTeamNames(demo);
+
+            //    string Team1 = TeamNames[0];
+            //    string Team2 = TeamNames[1];
+
+            //    // First we need to check if the map is the right type and from the right team
+            //    if (g.GetMapName(demo) != MapName || !g.CheckTeamName(demo, TeamName)) {
+            //        Console.WriteLine("{0} vs {1} could not be analyzed. Map : {2}", Team1, Team2, g.GetMapName(demo));
+            //        return;
+            //    }
+
+            //    Console.WriteLine("{0} vs {1} is currently being analyzed", Team1, Team2);
+            //}
+
+            using (var demo = new DemoParser(fileStream)) {
+                g.ParseGame(demo);
+                AllGames.Add(g);
+            }
         }
 
         /// <summary>

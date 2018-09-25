@@ -27,7 +27,9 @@ namespace CS_GO_Analysis {
         /// </summary>
         public Dictionary<string, Player> AllPlayers = new Dictionary<string, Player>();
 
-        public string mapName; 
+        public string mapName;
+        public string Team1;
+        public string Team2;
 
         public GameInfo() { }
 
@@ -36,9 +38,7 @@ namespace CS_GO_Analysis {
         /// </summary>
         /// <param name="parser"></param>
         public string GetMapName(DemoParser parser) {
-            parser.ParseHeader();
-            string MapName = parser.Map;
-            return MapName; 
+            return mapName; 
         }
 
         /// <summary>
@@ -48,13 +48,32 @@ namespace CS_GO_Analysis {
         /// <param name="parser"></param>
         /// <returns>true if the team we are looking for is in the game</returns>
         public bool CheckTeamName(DemoParser parser, string TeamName) {
-            parser.ParseHeader();
-            string Team1 = parser.CTClanName;
-            string Team2 = parser.TClanName; 
+
             if (Team1.Equals(TeamName) || Team2.Equals(TeamName)) {
                 return true; 
             }
             return false; 
+        }
+
+        /// <summary>
+        /// Get the name of the Teams. 
+        /// </summary>
+        /// <param name="parser"></param>
+        /// <returns></returns>
+        public List<string> GetTeamNames(DemoParser parser) {
+            return new List<string>() { Team1, Team2 }; 
+        }
+
+        public void ParseHeader(DemoParser parser) {
+            parser.ParseHeader();
+
+            parser.MatchStarted += (sender, e) => {
+                Team1 = parser.CTClanName;
+                Team2 = parser.TClanName;
+                mapName = parser.Map;
+            }; 
+
+            parser.ParseToEnd(); 
         }
 
         /// <summary>
@@ -67,11 +86,11 @@ namespace CS_GO_Analysis {
             float timeBeginningRound = 0f;
 
             Round currentRound = new Round();
-            bool setUpDetermined = false; 
-
+            bool setUpDetermined = false;
+            
             parser.ParseHeader();
-
             mapName = parser.Map;
+
             Map_JSON map = new Map_JSON();
 
             // Get information from the assoiated JSON file. 

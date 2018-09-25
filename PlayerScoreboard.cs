@@ -63,8 +63,8 @@ namespace CS_GO_Analysis {
         }
 
         public PlayerScoreboard(string name, Vector position, Vector lastPosition, 
-            int lastBulletNumber, EquipmentElement weapon, Team teamName) : 
-            base(name, position, lastPosition, lastBulletNumber, weapon, teamName) {
+            int lastBulletNumber, EquipmentElement weapon, Team teamSide, string TeamName) : 
+            base(name, position, lastPosition, lastBulletNumber, weapon, teamSide, TeamName) {
         }
 
         public override bool Equals(object obj) {
