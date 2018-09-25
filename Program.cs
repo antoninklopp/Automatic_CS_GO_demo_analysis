@@ -13,7 +13,12 @@ namespace CS_GO_Analysis {
 
         public static void Main(string[] args) {
             string folder = args[0];
+            string map = args[1]; 
+
+            // Search only for this particular map. 
+
             foreach (string s in ComputerDemos.ScanListDemos(folder)) {
+
                 using (var fileStream = File.OpenRead(s)) {
                     using (var parser = new DemoParser(fileStream)) {
                         // FragGenerator.GenerateFrags(parser);
@@ -26,6 +31,7 @@ namespace CS_GO_Analysis {
                         g.GenerateHeatMapPlayer();
                     }
                 }
+
             }
         }
     }

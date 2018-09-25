@@ -33,6 +33,10 @@ namespace CS_GO_Analysis {
             if (!AllPlayers.ContainsKey(e.Victim.Name)) {
                 AllPlayers.Add(e.Victim.Name, new PlayerScoreboard(e.Victim.Name));
             }
+            if (e.Assister !=  null && !AllPlayers.ContainsKey(e.Assister.Name)) {
+                AllPlayers.Add(e.Assister.Name, new PlayerScoreboard(e.Assister.Name));
+            }
+
 
             if (e.Assister != null) {
                 AllPlayers[e.Assister.Name].Assists++; 
@@ -58,6 +62,8 @@ namespace CS_GO_Analysis {
         /// Generate the scoreboard of the end of the game. 
         /// </summary>
         public void GenerateScoreboard() {
+            Console.WriteLine("{0, 15} | {1, 3} | {2,3} | {3, 3} | {4, 3}", "Name", "K",
+                   "A", "D", "HS");
             foreach (KeyValuePair<string, PlayerScoreboard> entry in AllPlayers) {
                 Console.WriteLine("---------------------------------------------------------");
                 Console.WriteLine("{0, 15} | {1, 3} | {2,3} | {3, 3} | {4, 3}", entry.Value.Name, entry.Value.Kills, 

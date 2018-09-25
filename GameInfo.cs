@@ -32,12 +32,21 @@ namespace CS_GO_Analysis {
         public GameInfo() { }
 
         /// <summary>
+        /// Return the map of the current Map; 
+        /// </summary>
+        /// <param name="parser"></param>
+        public string GetMapName(DemoParser parser) {
+            parser.ParseHeader();
+            string MapName = parser.Map;
+            return MapName; 
+        }
+
+        /// <summary>
         /// Get all the informations from the game
         /// </summary>
         /// <param name="parser"></param>
         public void ParseGame(DemoParser parser) {
             List<Death> deaths = new List<Death>();
-            var outputStream = new StreamWriter("round.txt");
 
             float timeBeginningRound = 0f;
 
@@ -61,8 +70,6 @@ namespace CS_GO_Analysis {
             int numberCT = 5;
             int numberT = 5;
 
-            outputStream.WriteLine(parser.Map);
-
             parser.MatchStarted += (sender, e) => {
                 // When the match starts we create a new scoreboard
                 board = new Scoreboard(); 
@@ -82,8 +89,7 @@ namespace CS_GO_Analysis {
                 }
 
                 timeBeginningRound = parser.CurrentTime;
-
-                outputStream.WriteLine("Round {0}", parser.CTScore + parser.TScore);
+                
                 Console.WriteLine("New Round, Current Score: T {0} : {1} CT", parser.TScore, parser.CTScore);
 
                 numberCT = 5;
@@ -166,7 +172,6 @@ namespace CS_GO_Analysis {
             }; 
 
             parser.ParseToEnd();
-            outputStream.Close();
         }
 
         public void AddRound(Round r) {
