@@ -42,6 +42,22 @@ namespace CS_GO_Analysis {
         }
 
         /// <summary>
+        /// Checks if the team we are looking for 
+        /// is one of the two teams playing
+        /// </summary>
+        /// <param name="parser"></param>
+        /// <returns>true if the team we are looking for is in the game</returns>
+        public bool CheckTeamName(DemoParser parser, string TeamName) {
+            parser.ParseHeader();
+            string Team1 = parser.CTClanName;
+            string Team2 = parser.TClanName; 
+            if (Team1.Equals(TeamName) || Team2.Equals(TeamName)) {
+                return true; 
+            }
+            return false; 
+        }
+
+        /// <summary>
         /// Get all the informations from the game
         /// </summary>
         /// <param name="parser"></param>
@@ -85,7 +101,7 @@ namespace CS_GO_Analysis {
                 }
 
                 foreach (var player in parser.PlayingParticipants) {
-                    AllPlayers[player.Name].TeamName = player.Team; 
+                    AllPlayers[player.Name].TeamSide = player.Team; 
                 }
 
                 timeBeginningRound = parser.CurrentTime;
@@ -155,7 +171,8 @@ namespace CS_GO_Analysis {
                     }
                     else {
                         AllPlayers.Add(player.Name, new Player(player.Name, player.Position, player.Position,
-                        player.ActiveWeapon.AmmoInMagazine, player.ActiveWeapon.Weapon, player.Team));
+                        player.ActiveWeapon.AmmoInMagazine, player.ActiveWeapon.Weapon, player.Team,
+                        (player.Team == Team.CounterTerrorist) ? parser.CTClanName : parser.TClanName));
                     }
                 }
             };
@@ -257,6 +274,25 @@ namespace CS_GO_Analysis {
                 GenerateHeatMaps.GenerateHeatpMapPosition(entry.Value, mapName, Team.CounterTerrorist);
                 GenerateHeatMaps.GenerateHeatpMapPosition(entry.Value, mapName, Team.Terrorist);
             }
+        }
+
+        /// <summary>
+        /// Get the names of players in a team. 
+        /// </summary>
+        /// <param name="TeamName"></param>
+        /// <returns></returns>
+        public List<string> GetPlayersFromTeam(string TeamName) {
+            List<string> AllPlayerNames = new List<string>();
+            foreach (KeyValuePair<string, Player> p in AllPlayers) {
+                if (p.Value.TeamName == TeamName) {
+                    AllPlayerNames.Add(p.Key);
+                }
+            }
+            // Check that we have 5 players in the team. 
+            if (AllPlayerNames.Count != 5) {
+                Console.WriteLine("ERROR : Not 5 players found in the team"); 
+            }
+            return AllPlayerNames; 
         }
     }
 }

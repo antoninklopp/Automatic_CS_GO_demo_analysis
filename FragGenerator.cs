@@ -146,7 +146,8 @@ namespace CS_GO_Analysis {
                     }
                     else {
                         AllPlayers.Add(player.Name, new Player(player.Name, player.Position, player.Position,
-                        player.ActiveWeapon.AmmoInMagazine, player.ActiveWeapon.Weapon, player.Team));
+                        player.ActiveWeapon.AmmoInMagazine, player.ActiveWeapon.Weapon, player.Team, 
+                        (player.Team == Team.CounterTerrorist) ? parser.CTClanName : parser.TClanName));
                     }
                 }
             };

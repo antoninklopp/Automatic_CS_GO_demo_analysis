@@ -13,7 +13,8 @@ namespace CS_GO_Analysis {
         public Vector LastPosition;
         public int LastBulletNumber;
         public EquipmentElement Weapon;
-        public Team TeamName;
+        public Team TeamSide;
+        public string TeamName; 
 
         public List<Death> AllDeaths;
 
@@ -27,11 +28,12 @@ namespace CS_GO_Analysis {
         }
 
         public Player(string name, Vector position, Vector lastPosition, int lastBulletNumber, EquipmentElement weapon, 
-            Team teamName) : this(name) {
+            Team teamSide, string teamName) : this(name) {
             Position = position;
             LastPosition = lastPosition;
             LastBulletNumber = lastBulletNumber;
             Weapon = weapon;
+            TeamSide = teamSide;
             TeamName = teamName; 
         }
 
@@ -45,7 +47,7 @@ namespace CS_GO_Analysis {
             LastPosition = p.LastPosition;
             LastBulletNumber = p.LastBulletNumber;
             Weapon = p.Weapon;
-            TeamName = p.TeamName;
+            TeamSide = p.TeamSide;
             AllDeaths = new List<Death>();
         }
 
@@ -57,7 +59,7 @@ namespace CS_GO_Analysis {
             LastPosition = Position;
             Position = position;
             LastBulletNumber = newBulletNumber;
-            if (TeamName == Team.CounterTerrorist) {
+            if (TeamSide == Team.CounterTerrorist) {
                 PositionHeatCT[(int)(PositionMiniMap.X/ sizeHeatMap), (int)(PositionMiniMap.Y/ sizeHeatMap)]++;
             } else {
                 PositionHeatT[(int)(PositionMiniMap.X / sizeHeatMap), (int)(PositionMiniMap.Y / sizeHeatMap)]++;

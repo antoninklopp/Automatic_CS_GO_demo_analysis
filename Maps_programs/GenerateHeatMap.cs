@@ -31,7 +31,7 @@ namespace CS_GO_Analysis.Maps {
             Graphics g = Graphics.FromImage(bitmap);
 
             foreach (Player p in listPlayers) {
-                if (p.TeamName == Team.CounterTerrorist) {
+                if (p.TeamSide == Team.CounterTerrorist) {
                     g.DrawEllipse(Pens.DarkBlue, new Rectangle((int)p.Position.X, (int)p.Position.Y, 5, 5));
                 }
                 else {

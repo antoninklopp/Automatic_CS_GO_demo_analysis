@@ -24,7 +24,7 @@ namespace CS_GO_Analysis {
             B = new SetUp(); 
             List<PlayerBombSite> Players = new List<PlayerBombSite>(); 
             foreach(Player p in AllPlayers) {
-                if (p.TeamName == Team.CounterTerrorist) {
+                if (p.TeamSide == Team.CounterTerrorist) {
                     Players.Add(new PlayerBombSite(p.Name, p.Position)); 
                 }
             }
