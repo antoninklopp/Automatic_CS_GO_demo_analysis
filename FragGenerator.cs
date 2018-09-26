@@ -55,7 +55,7 @@ namespace CS_GO_Analysis {
             parser.RoundStart += (sender, e) => {
                 timeBeginningRound = parser.CurrentTime; 
                 outputStream.WriteLine("Round {0}", parser.CTScore + parser.TScore); 
-                Console.WriteLine("New Round, Current Score: T {0} : {1} CT", parser.TScore, parser.CTScore);
+                // Console.WriteLine("New Round, Current Score: T {0} : {1} CT", parser.TScore, parser.CTScore);
 
                 numberCT = 5;
                 numberT = 5;

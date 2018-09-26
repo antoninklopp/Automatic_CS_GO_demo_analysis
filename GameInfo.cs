@@ -125,7 +125,7 @@ namespace CS_GO_Analysis {
 
                 timeBeginningRound = parser.CurrentTime;
                 
-                Console.WriteLine("New Round, Current Score: T {0} : {1} CT", parser.TScore, parser.CTScore);
+                // Console.WriteLine("New Round, Current Score: T {0} : {1} CT", parser.TScore, parser.CTScore);
 
                 numberCT = 5;
                 numberT = 5;
@@ -146,8 +146,8 @@ namespace CS_GO_Analysis {
 
                 AllRounds.Add(currentRound); 
 
-                Console.WriteLine("NumberCT alive " + numberCT.ToString() + " Number T alive " + numberT.ToString());
-                Console.WriteLine();
+                //Console.WriteLine("NumberCT alive " + numberCT.ToString() + " Number T alive " + numberT.ToString());
+                //Console.WriteLine();
             };
 
             parser.TickDone += (sender, e) => {
@@ -155,7 +155,7 @@ namespace CS_GO_Analysis {
                 float currentTime = parser.CurrentTime - timeBeginningRound;
 
                 if (currentTime > 35 && !setUpDetermined) {
-                    Console.WriteLine("CurrentTime {0}", currentTime); 
+                    // Console.WriteLine("CurrentTime {0}", currentTime); 
                     setUpDetermined = true;
                     List<Player> PlayersList = new List<Player>(); 
                     foreach(KeyValuePair<string, Player> entry in AllPlayers) {
@@ -189,9 +189,16 @@ namespace CS_GO_Analysis {
                         }
                     }
                     else {
-                        AllPlayers.Add(player.Name, new Player(player.Name, player.Position, player.Position,
-                        player.ActiveWeapon.AmmoInMagazine, player.ActiveWeapon.Weapon, player.Team,
-                        (player.Team == Team.CounterTerrorist) ? parser.CTClanName : parser.TClanName));
+                        if (player.ActiveWeapon == null) {
+                            AllPlayers.Add(player.Name, new Player(player.Name, player.Position, player.Position,
+                            0, EquipmentElement.Knife, player.Team,
+                            (player.Team == Team.CounterTerrorist) ? parser.CTClanName : parser.TClanName));
+                        }
+                        else {
+                            AllPlayers.Add(player.Name, new Player(player.Name, player.Position, player.Position,
+                            player.ActiveWeapon.AmmoInMagazine, player.ActiveWeapon.Weapon, player.Team,
+                            (player.Team == Team.CounterTerrorist) ? parser.CTClanName : parser.TClanName));
+                        }
                     }
                 }
             };

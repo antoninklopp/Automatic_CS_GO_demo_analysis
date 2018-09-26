@@ -27,44 +27,47 @@ namespace CS_GO_Analysis {
 
         public MultipleGames(string mapName, string teamName) {
             MapName = mapName;
-            TeamName = teamName; 
+            TeamName = teamName;
+            AllGames = new List<GameInfo>(); 
         }
 
         public MultipleGames(string mapName, string teamName, string path) : this (mapName, teamName) {
             string[] allDemos = ComputerDemos.ScanListDemos(path); 
             foreach (string demo in allDemos) {
-                using (var fileStream = File.OpenRead(demo)) {
-                    AnalyzeNewGame(fileStream); 
-                }
+                AnalyzeNewGame(demo); 
             }
-
         }
 
-        public void AnalyzeNewGame(FileStream fileStream) {
+        public void AnalyzeNewGame(string path) {
 
             GameInfo g = new GameInfo();
 
-            //using (var demo = new DemoParser(fileStream)) {
+            using (var fileStream = File.OpenRead(path)) {
+                using (var demo = new DemoParser(fileStream)) {
 
-            //    g.ParseHeader(demo);
+                    g.ParseHeader(demo);
 
-            //    List<string> TeamNames = g.GetTeamNames(demo);
+                    List<string> TeamNames = g.GetTeamNames(demo);
 
-            //    string Team1 = TeamNames[0];
-            //    string Team2 = TeamNames[1];
+                    string Team1 = TeamNames[0];
+                    string Team2 = TeamNames[1];
 
-            //    // First we need to check if the map is the right type and from the right team
-            //    if (g.GetMapName(demo) != MapName || !g.CheckTeamName(demo, TeamName)) {
-            //        Console.WriteLine("{0} vs {1} could not be analyzed. Map : {2}", Team1, Team2, g.GetMapName(demo));
-            //        return;
-            //    }
+                    // First we need to check if the map is the right type and from the right team
+                    if (g.GetMapName(demo) == null || (!g.GetMapName(demo).Equals(MapName) || !g.CheckTeamName(demo, TeamName))) {
+                        Console.WriteLine("{0} vs {1} could not be analyzed. Map : {2} {3}", Team1, Team2, g.GetMapName(demo), MapName);
+                        return;
+                    }
 
-            //    Console.WriteLine("{0} vs {1} is currently being analyzed", Team1, Team2);
-            //}
+                    Console.WriteLine("{0} vs {1} is currently being analyzed", Team1, Team2);
+                }
+            }
 
-            using (var demo = new DemoParser(fileStream)) {
-                g.ParseGame(demo);
-                AllGames.Add(g);
+
+            using (var fileStream = File.OpenRead(path)) {
+                using (var demo = new DemoParser(fileStream)) {
+                    g.ParseGame(demo);
+                    AllGames.Add(g);
+                }
             }
         }
 

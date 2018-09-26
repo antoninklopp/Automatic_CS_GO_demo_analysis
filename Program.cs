@@ -34,7 +34,8 @@ namespace CS_GO_Analysis {
 
             //}
 
-            MultipleGames m = new MultipleGames(map, "MIBR", folder); 
+            MultipleGames m = new MultipleGames(map, "G2 Esports", folder);
+            m.GenerateHeatMapsPosition(); 
         }
     }
 }
