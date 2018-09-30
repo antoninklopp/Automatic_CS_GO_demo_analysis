@@ -101,6 +101,32 @@ namespace CS_GO_Analysis {
         }
 
         /// <summary>
+        /// Generate the Map Kills position
+        /// </summary>
+        public void GenerateKillPosition() {
+            Dictionary<string, Player> Players = GetPlayers();
+
+            // Get the data from all the games
+            foreach (GameInfo g in AllGames) {
+                Dictionary<string, Player> gamePlayers = g.AllPlayers;
+                foreach (KeyValuePair<string, Player> entry in Players) {
+                    Player p = gamePlayers[entry.Key];
+                    for (int i = 0; i < (int)(1024f / Player.sizeHeatMap) + 1; i++) {
+                        for (int j = 0; j < (int)(1024f / Player.sizeHeatMap) + 1; j++) {
+                            Players[entry.Key].PositionHeatCT[i, j] += p.PositionHeatCT[i, j];
+                            Players[entry.Key].PositionHeatT[i, j] += p.PositionHeatT[i, j];
+                        }
+                    }
+                }
+            }
+
+            foreach (KeyValuePair<string, Player> entry in Players) {
+                GenerateHeatMaps.GenerateHeatpMapPosition(entry.Value, MapName, Team.CounterTerrorist);
+                GenerateHeatMaps.GenerateHeatpMapPosition(entry.Value, MapName, Team.Terrorist);
+            }
+        }
+
+        /// <summary>
         /// Get the players from the team from the game. 
         /// </summary>
         /// <returns></returns>

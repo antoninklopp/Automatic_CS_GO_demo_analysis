@@ -12,8 +12,13 @@ namespace CS_GO_Analysis {
         public static bool VERBOSE = false; 
 
         public static void Main(string[] args) {
+
+            if (args.Length != 3) {
+                Console.WriteLine("Help : dotnet run folder map team"); 
+            }
             string folder = args[0];
             string map = args[1];
+            string team = args[2]; 
 
             // Search only for this particular map. 
 
@@ -34,7 +39,7 @@ namespace CS_GO_Analysis {
 
             //}
 
-            MultipleGames m = new MultipleGames(map, "G2 Esports", folder);
+            MultipleGames m = new MultipleGames(map, team, folder);
             m.GenerateHeatMapsPosition(); 
         }
     }
