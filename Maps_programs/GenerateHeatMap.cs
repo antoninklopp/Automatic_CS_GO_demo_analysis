@@ -60,7 +60,29 @@ namespace CS_GO_Analysis.Maps {
                 }
             }
 
-            bitmap.Save(@"Test_images/" + mapName + "_" + playerName + ".png", ImageFormat.Png);
+            bitmap.Save(@"Test_images/Deaths_" + mapName + "_" + playerName + ".png", ImageFormat.Png);
+        }
+
+        /// <summary>
+        /// Generate a Map of all the deaths of a player
+        /// </summary>
+        public static void GenerateKillsPlayer(Player p, string mapName) {
+            Bitmap bitmap = new Bitmap("Maps/" + mapName + "_radar.png");
+            Graphics g = Graphics.FromImage(bitmap);
+
+            List<Kill> listKills = p.AllKills;
+            string playerName = p.Name;
+
+            foreach (Kill k in listKills) {
+                if (k.T == Team.CounterTerrorist) {
+                    g.DrawEllipse(Pens.DarkBlue, new Rectangle((int)k.Position.X, (int)k.Position.Y, 5, 5));
+                }
+                else {
+                    g.DrawEllipse(Pens.Yellow, new Rectangle((int)k.Position.X, (int)k.Position.Y, 5, 5));
+                }
+            }
+
+            bitmap.Save(@"Test_images/Kills_" + mapName + "_" + playerName + ".png", ImageFormat.Png);
         }
 
         public static void GenerateHeatpMapPosition(Player p, string mapName, Team t) {

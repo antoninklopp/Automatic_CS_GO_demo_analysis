@@ -17,6 +17,7 @@ namespace CS_GO_Analysis {
         public string TeamName; 
 
         public List<Death> AllDeaths;
+        public List<Kill> AllKills; 
 
         // important to differentiate CT and T heatmaps. 
         public int[,] PositionHeatT = new int[(int)(1024f/sizeHeatMap) + 1, (int)(1024f / sizeHeatMap) + 1];
@@ -24,7 +25,8 @@ namespace CS_GO_Analysis {
 
         public Player(string name) {
             Name = name;
-            AllDeaths = new List<Death>(); 
+            AllDeaths = new List<Death>();
+            AllKills = new List<Kill>(); 
         }
 
         public Player(string name, Vector position, Vector lastPosition, int lastBulletNumber, EquipmentElement weapon, 
@@ -49,6 +51,7 @@ namespace CS_GO_Analysis {
             Weapon = p.Weapon;
             TeamSide = p.TeamSide;
             AllDeaths = new List<Death>();
+            AllKills = new List<Kill>();
         }
 
         public void Update(Vector position, Vector PositionMiniMap, int newBulletNumber) {
@@ -68,6 +71,10 @@ namespace CS_GO_Analysis {
 
         public void AddDeath(Death d) {
             AllDeaths.Add(d);
+        }
+
+        public void AddKill(Kill k) {
+            AllKills.Add(k); 
         }
     }
 }

@@ -111,18 +111,14 @@ namespace CS_GO_Analysis {
                 Dictionary<string, Player> gamePlayers = g.AllPlayers;
                 foreach (KeyValuePair<string, Player> entry in Players) {
                     Player p = gamePlayers[entry.Key];
-                    for (int i = 0; i < (int)(1024f / Player.sizeHeatMap) + 1; i++) {
-                        for (int j = 0; j < (int)(1024f / Player.sizeHeatMap) + 1; j++) {
-                            Players[entry.Key].PositionHeatCT[i, j] += p.PositionHeatCT[i, j];
-                            Players[entry.Key].PositionHeatT[i, j] += p.PositionHeatT[i, j];
-                        }
+                    foreach (Kill k in p.AllKills) {
+                        Players[entry.Key].AllKills.Add(new Kill(k)); 
                     }
                 }
             }
 
             foreach (KeyValuePair<string, Player> entry in Players) {
-                GenerateHeatMaps.GenerateHeatpMapPosition(entry.Value, MapName, Team.CounterTerrorist);
-                GenerateHeatMaps.GenerateHeatpMapPosition(entry.Value, MapName, Team.Terrorist);
+                GenerateHeatMaps.GenerateKillsPlayer(entry.Value, MapName); 
             }
         }
 

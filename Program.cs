@@ -40,7 +40,8 @@ namespace CS_GO_Analysis {
             //}
 
             MultipleGames m = new MultipleGames(map, team, folder);
-            m.GenerateHeatMapsPosition(); 
+            m.GenerateHeatMapsPosition();
+            m.GenerateKillPosition(); 
         }
     }
 }

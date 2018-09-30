@@ -10,5 +10,10 @@ namespace CS_GO_Analysis {
             Position = position;
             T = t;
         }
+
+        public PositionEvent(PositionEvent p) {
+            Position = p.Position;
+            T = p.T; 
+        }
     }
 }

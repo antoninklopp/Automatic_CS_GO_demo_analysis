@@ -205,9 +205,12 @@ namespace CS_GO_Analysis {
 
             parser.PlayerKilled += (sender, e) => {
                 board.UpdateScoreBoardPlayerKilled(e);
+                // Add death
                 AllPlayers[e.Victim.Name].AddDeath(new Death(GetPositionMiniMap(e.Victim.Position, map.pos_x, map.pos_y, map.scale)
-                    , e.Victim.Team)); 
-                AllPlayers[e.Killer.Name].AddKill()
+                    , e.Victim.Team));
+                // Add kill
+                AllPlayers[e.Killer.Name].AddKill(new Kill(GetPositionMiniMap(e.Killer.Position, map.pos_x, map.pos_y, map.scale)
+                    , e.Killer.Team)); 
             };
 
             // Occurs when a player gets hurt. 
