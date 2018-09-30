@@ -14,7 +14,10 @@ namespace CS_GO_Analysis {
         public int LastBulletNumber;
         public EquipmentElement Weapon;
         public Team TeamSide;
-        public string TeamName; 
+        public string TeamName;
+
+        public Vector NotMovingPosition;
+        public int numberTickNotMoving; 
 
         public List<Death> AllDeaths;
         public List<Kill> AllKills; 
@@ -22,6 +25,10 @@ namespace CS_GO_Analysis {
         // important to differentiate CT and T heatmaps. 
         public int[,] PositionHeatT = new int[(int)(1024f/sizeHeatMap) + 1, (int)(1024f / sizeHeatMap) + 1];
         public int[,] PositionHeatCT = new int[(int)(1024f / sizeHeatMap) + 1, (int)(1024f / sizeHeatMap) + 1];
+
+        // The position of freeze, of wait without moving
+        public int[,] PositionHeatTNoMove = new int[(int)(1024f / sizeHeatMap) + 1, (int)(1024f / sizeHeatMap) + 1];
+        public int[,] PositionHeatCTNoMove = new int[(int)(1024f / sizeHeatMap) + 1, (int)(1024f / sizeHeatMap) + 1];
 
         public Player(string name) {
             Name = name;
@@ -36,7 +43,8 @@ namespace CS_GO_Analysis {
             LastBulletNumber = lastBulletNumber;
             Weapon = weapon;
             TeamSide = teamSide;
-            TeamName = teamName; 
+            TeamName = teamName;
+            NotMovingPosition = position; 
         }
 
         /// <summary>
@@ -50,6 +58,7 @@ namespace CS_GO_Analysis {
             LastBulletNumber = p.LastBulletNumber;
             Weapon = p.Weapon;
             TeamSide = p.TeamSide;
+            NotMovingPosition = p.Position; 
             AllDeaths = new List<Death>();
             AllKills = new List<Kill>();
         }
@@ -67,6 +76,20 @@ namespace CS_GO_Analysis {
             } else {
                 PositionHeatT[(int)(PositionMiniMap.X / sizeHeatMap), (int)(PositionMiniMap.Y / sizeHeatMap)]++;
             }
+
+            // Check for lines holding.
+            if (Distance(position, NotMovingPosition) < 10f) {
+                numberTickNotMoving += 1;
+                if (TeamSide == Team.CounterTerrorist) {
+                    PositionHeatCTNoMove[(int)(PositionMiniMap.X / sizeHeatMap), (int)(PositionMiniMap.Y / sizeHeatMap)]++;
+                }
+                else {
+                    PositionHeatTNoMove[(int)(PositionMiniMap.X / sizeHeatMap), (int)(PositionMiniMap.Y / sizeHeatMap)]++;
+                }
+            } else {
+                NotMovingPosition = position;
+                numberTickNotMoving = 0;
+            }
         }
 
         public void AddDeath(Death d) {
@@ -75,6 +98,15 @@ namespace CS_GO_Analysis {
 
         public void AddKill(Kill k) {
             AllKills.Add(k); 
+        }
+
+        /// <summary>
+        /// Simple distance function between vectors
+        /// </summary>
+        /// <param name="v1"></param>
+        /// <param name="v2"></param>
+        public static float Distance(Vector v1, Vector v2) {
+            return (float)Math.Sqrt(Math.Pow(v1.X - v2.X, 2) + Math.Pow(v1.Y - v2.Y, 2) + Math.Pow(v1.Z - v2.Z, 2)); 
         }
     }
 }

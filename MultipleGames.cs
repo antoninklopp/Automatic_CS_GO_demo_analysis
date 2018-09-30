@@ -105,6 +105,39 @@ namespace CS_GO_Analysis {
         }
 
         /// <summary>
+        /// Generate the heatmaps from the players
+        /// into the map. 
+        /// </summary>
+        public void GenerateHeatMapsPositionNoMove() {
+
+            Dictionary<string, Player> Players = GetPlayers();
+
+            // Get the data from all the games
+            foreach (GameInfo g in AllGames) {
+                Dictionary<string, Player> gamePlayers = g.AllPlayers;
+                foreach (KeyValuePair<string, Player> entry in Players) {
+                    Player p = gamePlayers[entry.Key];
+                    for (int i = 0; i < (int)(1024f / Player.sizeHeatMap) + 1; i++) {
+                        for (int j = 0; j < (int)(1024f / Player.sizeHeatMap) + 1; j++) {
+                            Players[entry.Key].PositionHeatCTNoMove[i, j] += p.PositionHeatCTNoMove[i, j];
+                            Players[entry.Key].PositionHeatTNoMove[i, j] += p.PositionHeatTNoMove[i, j];
+                        }
+                    }
+                }
+            }
+
+            if (!Directory.Exists(TeamName + "_" + MapName)) {
+                Directory.CreateDirectory(TeamName + "_" + MapName);
+            }
+
+            foreach (KeyValuePair<string, Player> entry in Players) {
+                GenerateHeatMaps.GenerateHeatpMapPositionHolding(entry.Value, MapName, Team.CounterTerrorist, TeamName + "_" + MapName);
+                GenerateHeatMaps.GenerateHeatpMapPositionHolding(entry.Value, MapName, Team.Terrorist, TeamName + "_" + MapName);
+            }
+
+        }
+
+        /// <summary>
         /// Generate the Map Kills position
         /// </summary>
         public void GenerateKillPosition() {
@@ -129,6 +162,8 @@ namespace CS_GO_Analysis {
                 GenerateHeatMaps.GenerateKillsPlayer(entry.Value, MapName, TeamName + "_" + MapName); 
             }
         }
+
+
 
         /// <summary>
         /// Get the players from the team from the game. 

@@ -129,5 +129,45 @@ namespace CS_GO_Analysis.Maps {
 
             bitmap.Save(folder + "/Position/HeatMap_" + mapName + "_" + p.Name + "_" + t + ".png", ImageFormat.Png);
         }
+
+        public static void GenerateHeatpMapPositionHolding(Player p, string mapName, Team t, string folder = "Test_images") {
+            Bitmap bitmap = new Bitmap("Maps/" + mapName + "_radar.png");
+            Graphics g = Graphics.FromImage(bitmap);
+
+            List<Death> listDeaths = p.AllDeaths;
+            string playerName = p.Name;
+
+            // First we find the max value
+            int maxValue = 0;
+            if (t == Team.CounterTerrorist) {
+                maxValue = p.PositionHeatCTNoMove.Cast<int>().Max();
+            }
+            else {
+                maxValue = p.PositionHeatTNoMove.Cast<int>().Max();
+            }
+
+            // iterate over the position of the player
+            for (int i = 0; i < (int)(1024f / Player.sizeHeatMap) + 1; i++) {
+                for (int j = 0; j < (int)(1024f / Player.sizeHeatMap) + 1; j++) {
+                    int currentPosition;
+                    if (t == Team.CounterTerrorist) {
+                        currentPosition = p.PositionHeatCTNoMove[i, j];
+                    }
+                    else {
+                        currentPosition = p.PositionHeatTNoMove[i, j];
+                    }
+                    Color c = ColorHeatMap.GetColorHeatMap(currentPosition, maxValue);
+                    Brush b = new SolidBrush(c);
+                    g.FillRectangle(b, i * Player.sizeHeatMap, j * Player.sizeHeatMap,
+                        Player.sizeHeatMap, Player.sizeHeatMap);
+                }
+            }
+
+            if (!Directory.Exists(folder + "/Holding")) {
+                Directory.CreateDirectory(folder + "/Holding");
+            }
+
+            bitmap.Save(folder + "/Holding/HeatMap_" + mapName + "_" + p.Name + "_" + t + ".png", ImageFormat.Png);
+        }
     }
 }
