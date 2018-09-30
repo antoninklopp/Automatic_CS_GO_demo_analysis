@@ -4,3 +4,4 @@ bin/*
 *.csv*
 obj/*
 Program_save.cs
+*.png

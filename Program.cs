@@ -18,7 +18,7 @@ namespace CS_GO_Analysis {
             }
             string folder = args[0];
             string map = args[1];
-            string team = args[2]; 
+            string team = args[2];
 
             // Search only for this particular map. 
 

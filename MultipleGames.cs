@@ -93,9 +93,13 @@ namespace CS_GO_Analysis {
                 }
             }
 
+            if (!Directory.Exists(TeamName + "_" + MapName)) {
+                Directory.CreateDirectory(TeamName + "_" + MapName);
+            }
+
             foreach (KeyValuePair<string, Player> entry in Players) {
-                GenerateHeatMaps.GenerateHeatpMapPosition(entry.Value, MapName, Team.CounterTerrorist);
-                GenerateHeatMaps.GenerateHeatpMapPosition(entry.Value, MapName, Team.Terrorist);
+                GenerateHeatMaps.GenerateHeatpMapPosition(entry.Value, MapName, Team.CounterTerrorist, TeamName+"_"+MapName);
+                GenerateHeatMaps.GenerateHeatpMapPosition(entry.Value, MapName, Team.Terrorist, TeamName + "_" + MapName);
             }
 
         }
@@ -117,8 +121,12 @@ namespace CS_GO_Analysis {
                 }
             }
 
+            if (!Directory.Exists(TeamName + "_" + MapName)) {
+                Directory.CreateDirectory(TeamName + "_" + MapName);
+
+            }
             foreach (KeyValuePair<string, Player> entry in Players) {
-                GenerateHeatMaps.GenerateKillsPlayer(entry.Value, MapName); 
+                GenerateHeatMaps.GenerateKillsPlayer(entry.Value, MapName, TeamName + "_" + MapName); 
             }
         }
 

@@ -45,7 +45,7 @@ namespace CS_GO_Analysis.Maps {
         /// <summary>
         /// Generate a Map of all the deaths of a player
         /// </summary>
-        public static void GenerateDeathsPlayer(Player p, string mapName) {
+        public static void GenerateDeathsPlayer(Player p, string mapName, string folder= "Test_images") {
             Bitmap bitmap = new Bitmap("Maps/" + mapName + "_radar.png");
             Graphics g = Graphics.FromImage(bitmap);
 
@@ -59,14 +59,17 @@ namespace CS_GO_Analysis.Maps {
                     g.DrawEllipse(Pens.Yellow, new Rectangle((int)d.Position.X, (int)d.Position.Y, 5, 5));
                 }
             }
-
-            bitmap.Save(@"Test_images/Deaths_" + mapName + "_" + playerName + ".png", ImageFormat.Png);
+            
+            if (!Directory.Exists(folder + "/Deaths")) {
+                Directory.CreateDirectory(folder + "/Deaths"); 
+            }
+            bitmap.Save(folder + "/Deaths/" + mapName + "_" + playerName + ".png", ImageFormat.Png);
         }
 
         /// <summary>
         /// Generate a Map of all the deaths of a player
         /// </summary>
-        public static void GenerateKillsPlayer(Player p, string mapName) {
+        public static void GenerateKillsPlayer(Player p, string mapName, string folder="Test_images") {
             Bitmap bitmap = new Bitmap("Maps/" + mapName + "_radar.png");
             Graphics g = Graphics.FromImage(bitmap);
 
@@ -82,10 +85,13 @@ namespace CS_GO_Analysis.Maps {
                 }
             }
 
-            bitmap.Save(@"Test_images/Kills_" + mapName + "_" + playerName + ".png", ImageFormat.Png);
+            if (!Directory.Exists(folder + "/Kills")) {
+                Directory.CreateDirectory(folder + "/Kills");
+            }
+            bitmap.Save(folder + "/Kills/" + mapName + "_" + playerName + ".png", ImageFormat.Png);
         }
 
-        public static void GenerateHeatpMapPosition(Player p, string mapName, Team t) {
+        public static void GenerateHeatpMapPosition(Player p, string mapName, Team t, string folder="Test_images") {
             Bitmap bitmap = new Bitmap("Maps/" + mapName + "_radar.png");
             Graphics g = Graphics.FromImage(bitmap);
 
@@ -117,7 +123,11 @@ namespace CS_GO_Analysis.Maps {
                 }
             }
 
-            bitmap.Save(@"Test_images/HeatMap_" + mapName + "_" + p.Name + "_" + t + ".png", ImageFormat.Png);
+            if (!Directory.Exists(folder + "/Position")) {
+                Directory.CreateDirectory(folder + "/Position");
+            }
+
+            bitmap.Save(folder + "/Position/HeatMap_" + mapName + "_" + p.Name + "_" + t + ".png", ImageFormat.Png);
         }
     }
 }
