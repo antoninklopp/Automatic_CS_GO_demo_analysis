@@ -44,7 +44,7 @@ namespace CS_GO_Analysis {
             Weapon = weapon;
             TeamSide = teamSide;
             TeamName = teamName;
-            NotMovingPosition = position; 
+            NotMovingPosition = new Vector(position.X, position.Y, position.Z);
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace CS_GO_Analysis {
             LastBulletNumber = p.LastBulletNumber;
             Weapon = p.Weapon;
             TeamSide = p.TeamSide;
-            NotMovingPosition = p.Position; 
+            NotMovingPosition = new Vector(p.Position.X, p.Position.Y, p.Position.Z);
             AllDeaths = new List<Death>();
             AllKills = new List<Kill>();
         }
@@ -80,14 +80,17 @@ namespace CS_GO_Analysis {
             // Check for lines holding.
             if (Distance(position, NotMovingPosition) < 10f) {
                 numberTickNotMoving += 1;
-                if (TeamSide == Team.CounterTerrorist) {
-                    PositionHeatCTNoMove[(int)(PositionMiniMap.X / sizeHeatMap), (int)(PositionMiniMap.Y / sizeHeatMap)]++;
+                if (numberTickNotMoving > 100) {
+                    if (TeamSide == Team.CounterTerrorist) {
+                        PositionHeatCTNoMove[(int)(PositionMiniMap.X / sizeHeatMap), (int)(PositionMiniMap.Y / sizeHeatMap)]++;
+                    }
+                    else {
+                        PositionHeatTNoMove[(int)(PositionMiniMap.X / sizeHeatMap), (int)(PositionMiniMap.Y / sizeHeatMap)]++;
+                    }
                 }
-                else {
-                    PositionHeatTNoMove[(int)(PositionMiniMap.X / sizeHeatMap), (int)(PositionMiniMap.Y / sizeHeatMap)]++;
-                }
+                // Console.WriteLine("{0} {1} {2} {3}", numberTickNotMoving, Distance(position, NotMovingPosition), position, NotMovingPosition); 
             } else {
-                NotMovingPosition = position;
+                NotMovingPosition = new Vector(position.X, position.Y, position.Z);
                 numberTickNotMoving = 0;
             }
         }
