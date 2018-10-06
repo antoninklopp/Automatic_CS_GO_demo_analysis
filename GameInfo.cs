@@ -87,6 +87,7 @@ namespace CS_GO_Analysis {
 
             Round currentRound = new Round();
             bool setUpDetermined = false;
+            bool roundTypeDetermined = false; 
             
             parser.ParseHeader();
             mapName = parser.Map;
@@ -137,14 +138,16 @@ namespace CS_GO_Analysis {
                     TTeam = parser.TClanName, 
                     Number = parser.CTScore + parser.TScore
                 };
+
                 setUpDetermined = false;
+                roundTypeDetermined = false;
 
                 board.UpdateScoreBoardNewRound(); 
             };
 
             parser.RoundEnd += (sender, e) => {
 
-                AllRounds.Add(currentRound); 
+                AllRounds.Add(currentRound);
 
                 //Console.WriteLine("NumberCT alive " + numberCT.ToString() + " Number T alive " + numberT.ToString());
                 //Console.WriteLine();
@@ -200,6 +203,13 @@ namespace CS_GO_Analysis {
                             (player.Team == Team.CounterTerrorist) ? parser.CTClanName : parser.TClanName));
                         }
                     }
+
+                    // When a first player starts moving, we determine the eco type
+                    if ((player.Velocity.X != 0) && !roundTypeDetermined) {
+                        currentRound.DetermineEcoType(parser.PlayingParticipants); 
+                        roundTypeDetermined = true; 
+                    }
+                    
                 }
             };
 

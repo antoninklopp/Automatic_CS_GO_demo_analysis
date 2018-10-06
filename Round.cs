@@ -21,7 +21,8 @@ namespace CS_GO_Analysis {
         /// <summary>
         /// Eco type of the round
         /// </summary>
-        public RoundType type; 
+        public RoundType typeCT;
+        public RoundType typeT; 
 
         public Round() {
         }
@@ -34,21 +35,39 @@ namespace CS_GO_Analysis {
         /// Determine the eco type of the round
         /// </summary>
         /// <param name="PlayerBeginningRound"></param>
-        public void DetermineEcoType(List<DemoInfo.Player> PlayerBeginningRound) {
-            int Money = 0;
+        public void DetermineEcoType(IEnumerable<DemoInfo.Player> PlayerBeginningRound) {
+            int MoneyCT = 0;
+            int MoneyT = 0; 
 
             foreach (DemoInfo.Player p in PlayerBeginningRound) {
-                
+                if (p.Team == Team.CounterTerrorist) {
+                    MoneyCT += p.CurrentEquipmentValue;
+                } else {
+                    MoneyT += p.CurrentEquipmentValue;
+                }
             }
 
-            float AverageMoney = Money / 5; 
-            if (AverageMoney < 1500) {
-                type = RoundType.ECO; 
-            } else if (AverageMoney < 3500) {
-                type = RoundType.LITTLE_BUY; 
+            float AverageMoneyCT = MoneyCT / 5; 
+            if (AverageMoneyCT < 1500) {
+                typeCT = RoundType.ECO; 
+            } else if (AverageMoneyCT < 3500) {
+                typeCT = RoundType.LITTLE_BUY; 
             } else {
-                type = RoundType.FULL_BUY; 
+                typeCT = RoundType.FULL_BUY; 
             }
+
+            float AverageMoneyT = MoneyT / 5;
+            if (AverageMoneyT < 1500) {
+                typeT = RoundType.ECO;
+            }
+            else if (AverageMoneyT < 3500) {
+                typeT = RoundType.LITTLE_BUY;
+            }
+            else {
+                typeT = RoundType.FULL_BUY;
+            }
+
+            Console.WriteLine("{0} buy CT   {1} buy T", typeCT, typeT); 
         }
 
     }
