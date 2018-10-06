@@ -80,7 +80,7 @@ namespace CS_GO_Analysis {
             // Check for lines holding.
             if (Distance(position, NotMovingPosition) < 10f) {
                 numberTickNotMoving += 1;
-                if (numberTickNotMoving > 100) {
+                if (numberTickNotMoving > 500){
                     if (TeamSide == Team.CounterTerrorist) {
                         PositionHeatCTNoMove[(int)(PositionMiniMap.X / sizeHeatMap), (int)(PositionMiniMap.Y / sizeHeatMap)]++;
                     }

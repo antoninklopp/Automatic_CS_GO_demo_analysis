@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "CS_GO_Analysis": {
+      "commandName": "Project",
+      "commandLineArgs": ". de_inferno Astralis"
+    }
+  }
+}
