@@ -38,6 +38,7 @@ namespace CS_GO_Analysis {
         /// </summary>
         /// <param name="parser"></param>
         public string GetMapName(DemoParser parser) {
+            mapName = parser.Map;
             return mapName; 
         }
 
@@ -61,6 +62,8 @@ namespace CS_GO_Analysis {
         /// <param name="parser"></param>
         /// <returns></returns>
         public List<string> GetTeamNames(DemoParser parser) {
+            Team1 = parser.TClanName;
+            Team2 = parser.CTClanName; 
             return new List<string>() { Team1, Team2 }; 
         }
 
