@@ -1,0 +1,136 @@
+{
+    "positions": [
+        {
+            "name": "CTSpawn",
+            "position": "441.0 -2796.7 197.6 39.0 53.3"
+        },
+        {
+            "name": "CreekCT",
+            "position": "245.7 -1260.8 127.6 35.9 -42.1"
+        },
+        {
+            "name": "CreekBridge",
+            "position": "742.9 -1616.9 200.3 38.4 103.5"
+        },
+        {
+            "name": "EscBridge",
+            "position": "2392.2 -1544.6 205.8 36.3 -155.8"
+        },
+        {
+            "name": "MidBridge",
+            "position": "885.1 -1149.5 299.0 47.0 77.9"
+        },
+        {
+            "name": "Tractor",
+            "position": "550.0 -1086.0 47.5 36.5 142.6"
+        },
+        {
+            "name": "HouseFront1",
+            "position": "665.4 -481.8 199.6 33.2 140.3"
+        },
+        {
+            "name": "HouseFront2",
+            "position": "-252.7 -98.2 254.4 36.7 -0.2"
+        },
+        {
+            "name": "TSide",
+            "position": "-112.5 414.0 434.0 43.4 -62.7"
+        },
+        {
+            "name": "RoofF",
+            "position": "534.0 1114.4 683.7 53.7 -89.6"
+        },
+        {
+            "name": "RoofB",
+            "position": "434.4 124.2 691.9 56.3 78.0"
+        },
+        {
+            "name": "GarageOut1",
+            "position": "1458.1 -92.5 302.2 48.5 131.6"
+        },
+        {
+            "name": "GarageOut2",
+            "position": "1314.8 439.5 382.3 57.4 -46.4"
+        },
+        {
+            "name": "MidHole1",
+            "position": "1937.1 270.0 43.4 33.3 136.4"
+        },
+        {
+            "name": "CoopF",
+            "position": "1827.0 1277.2 102.9 19.8 -133.6"
+        },
+        {
+            "name": "CoopB",
+            "position": "1795.8 994.9 64.7 19.2 158.9"
+        },
+        {
+            "name": "ShedOut1",
+            "position": "1090.7 1836.1 51.6 24.4 -142.2"
+        },
+        {
+            "name": "Shed",
+            "position": "307.4 1711.5 4.0 41.2 36.2"
+        },
+        {
+            "name": "BackPorch",
+            "position": "569.1 1719.7 81.4 18.4 -103.7"
+        },
+        {
+            "name": "BackSide",
+            "position": "-250.0 1736.0 22.1 19.5 -45.8"
+        },
+        {
+            "name": "Bunks",
+            "position": "61.7 1125.7 102.8 25.1 -43.0"
+        },
+        {
+            "name": "Bath",
+            "position": "703.7 1128.0 109.0 36.2 -132.7"
+        },
+        {
+            "name": "Stairs",
+            "position": "687.1 735.7 102.5 33.3 -136.9"
+        },
+        {
+            "name": "TSnipe",
+            "position": "-175.7 224.0 161.4 19.6 45.7"
+        },
+        {
+            "name": "FWindIn",
+            "position": "155.2 289.6 95.0 22.5 -40.4"
+        },
+        {
+            "name": "GarInUp",
+            "position": "779.4 574.6 110.1 31.5 -26.5"
+        },
+        {
+            "name": "GarD1",
+            "position": "1031.6 299.7 -62.2 19.5 112.8"
+        },
+        {
+            "name": "GarD2",
+            "position": "1281.5 797.1 -75.3 13.2 -147.7"
+        },
+        {
+            "name": "Dining",
+            "position": "702.6 1141.8 -29.5 27.6 -130.0"
+        },
+        {
+            "name": "Living",
+            "position": "25.8 1128.3 -38.7 24.5 -47.4"
+        },
+        {
+            "name": "Fireplace",
+            "position": "17.9 548.6 -61.5 20.9 -25.4"
+        },
+        {
+            "name": "FrontDIn",
+            "position": "46.1 318.2 -44.0 25.0 17.1"
+        },
+        {
+            "name": "Over1",
+            "position": "1856.6 956.7 667.9 49.3 -161.4"
+        }
+    ]
+}

@@ -50,7 +50,8 @@ namespace CS_GO_Analysis {
         /// <returns>true if the team we are looking for is in the game</returns>
         public bool CheckTeamName(DemoParser parser, string TeamName) {
 
-            if (Team1.Equals(TeamName) || Team2.Equals(TeamName)) {
+            if (Team1.Equals(TeamName, StringComparison.InvariantCultureIgnoreCase) 
+                || Team2.Equals(TeamName, StringComparison.InvariantCultureIgnoreCase)) {
                 return true; 
             }
             return false; 
@@ -96,6 +97,7 @@ namespace CS_GO_Analysis {
             mapName = parser.Map;
 
             Map_JSON map = new Map_JSON();
+            MapPositions mapPositions = new MapPositions(mapName); 
 
             // Get information from the assoiated JSON file. 
             try {
@@ -161,7 +163,6 @@ namespace CS_GO_Analysis {
                 float currentTime = parser.CurrentTime - timeBeginningRound;
 
                 if (currentTime > 35 && !setUpDetermined) {
-                    // Console.WriteLine("CurrentTime {0}", currentTime); 
                     setUpDetermined = true;
                     List<Player> PlayersList = new List<Player>(); 
                     foreach(KeyValuePair<string, Player> entry in AllPlayers) {

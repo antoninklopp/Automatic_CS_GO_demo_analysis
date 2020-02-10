@@ -5,3 +5,4 @@ bin/*
 obj/*
 Program_save.cs
 *.png
+/Demos/*
